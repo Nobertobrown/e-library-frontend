@@ -1,23 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <form
+        action="http://localhost:8080/catalogue/book"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        <label for="title">Title: </label>
+        <input type="text" name="title" id="title" />
+
+        <label for="author">Author: </label>
+        <input type="text" name="author" id="author" />
+
+        <label for="book">Book: </label>
+        <input type="file" name="book" id="book" />
+
+        <label for="desc">Description: </label>
+        <input type="text" name="description" id="desc" />
+
+        <label for="rating">Rate: </label>
+        <input type="number" name="rating" id="rating" />
+
+        <button type="submit">Save</button>
+      </form>
     </div>
   );
 }
