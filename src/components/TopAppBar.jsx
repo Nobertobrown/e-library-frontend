@@ -95,7 +95,7 @@ function ResponsiveTopAppBar() {
           <CustomButton
             sx={{
               display: { xs: "none", md: "none", lg: "flex" },
-              color: "white",
+              color: "background.light",
               borderRadius: "0",
               backgroundColor: "secondary.light",
               textTransform: "none",
@@ -104,7 +104,6 @@ function ResponsiveTopAppBar() {
               fontSize: "1.125rem",
               fontWeight: "600",
             }}
-            size="large"
             disableElevation
           >
             Campuses

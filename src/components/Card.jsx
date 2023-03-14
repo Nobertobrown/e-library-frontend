@@ -7,22 +7,33 @@ import { Divider, Grid, Link } from "@mui/material";
 
 export default function BasicCard() {
   return (
-    <Grid item xs={3}>
-      {" "}
-      <Card sx={{ minWidth: 275 }}>
-        <CardContent>
-          <Typography variant="h4" component="h4">
+    <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
+      <Card sx={{ backgroundColor: "transparent" }} elevation={0} square>
+        <CardContent sx={{ p: 0 }}>
+          <Typography
+            variant="subtitle1"
+            component="h6"
+            sx={{ fontWeight: "700", color: "primary.light", mb: "15px" }}
+          >
             Our Address
           </Typography>
-          <Divider variant="middle" />
-          <Typography variant="body" component="p">
+          <Divider
+            variant="fullWidth"
+            sx={{
+              borderColor: "secondary.main",
+              mb: "26px",
+            }}
+          />
+          <Typography variant="body1" component="p">
             Bibititi and Morogoro Rd Junction
             <br />
-            P. O. Box 2958 Dar-es-salaam,
+            P. O. Box 2958 Dar-es-salaam,Tanzania
           </Typography>
         </CardContent>
-        <CardActions>
-          <Link>Tanzania principal@dit.ac.tz</Link>
+        <CardActions sx={{ p: 0 }}>
+          <Link sx={{ cursor: "pointer" }} underline="false">
+            principal@dit.ac.tz
+          </Link>
         </CardActions>
       </Card>
     </Grid>

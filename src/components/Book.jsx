@@ -1,14 +1,14 @@
 import React from "react";
-import { Grid, Paper, Rating, Typography } from "@mui/material";
-import { Box } from "@mui/system";
+import { Grid, Paper, Rating, Typography, Box } from "@mui/material";
 
 function Book() {
   return (
-    <Grid item xs={3}>
+    <Grid item lg={2.4}>
+      {/* sm={4} md={3} */}
       <Paper elevation={0} square>
         <img src="/images/floyd.png" alt="floyd.png" className="img" />
         <Box>
-          <Rating name="read-only" value={3} precision={0.5} readOnly />
+          <Rating name="read-only" value={5} precision={0.5} readOnly />
         </Box>
         <Box>
           <Typography variant="h6" component="h6">
