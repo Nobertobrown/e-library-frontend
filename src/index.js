@@ -7,18 +7,29 @@ import { createTheme, ThemeProvider } from "@mui/material";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 const theme = createTheme({
-  // components: {
-  //   MuiButtonBase: {
-  //     defaultProps: {
-  //       disableRipple: true,
-  //     },
-  //   },
-  // },
+  components: {
+    // MuiButtonBase: {
+    //   defaultProps: {
+    //     disableRipple: true,
+    //   },
+    // },
+    MuiLink: {
+      defaultProps: {
+        underline: "none",
+      },
+      styleOverrides: {
+        root: {
+          cursor: "pointer",
+        },
+      },
+    },
+  },
+
   typography: {
     fontFamily: [
-      "Poppins",
-      "Raleway",
-      "Roboto",
+      '"Poppins"',
+      '"Raleway"',
+      '"Roboto"',
       "Arial",
       "sans-serif",
       '"Apple Color Emoji"',

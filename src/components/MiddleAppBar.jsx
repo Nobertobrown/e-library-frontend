@@ -33,8 +33,8 @@ function ResponsiveMiddleAppBar() {
   return (
     <>
       <AppBar
-        position="static"
-        elevation={0}
+        position="sticky"
+        elevation={1}
         sx={{
           fontFamily: "Poppins",
           backgroundColor: "background.light",
@@ -71,11 +71,9 @@ function ResponsiveMiddleAppBar() {
                     my: "auto",
                     color: "primary.light",
                     mr: 4.5,
-                    cursor: "pointer",
                     fontWeight: "500",
                   }}
                   variant="body1"
-                  underline="none"
                 >
                   {page}
                 </Link>

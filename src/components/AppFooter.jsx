@@ -15,36 +15,16 @@ function Footer() {
       </Box>
       <Box paddingY="12px" sx={{ backgroundColor: "primary.main" }}>
         <Stack direction="row" spacing={2} justifyContent="center">
-          <Link
-            sx={{ cursor: "pointer" }}
-            variant="body2"
-            color="background.light"
-            underline="none"
-          >
+          <Link variant="body2" color="background.light">
             Terms and Conditions
           </Link>
-          <Link
-            sx={{ cursor: "pointer" }}
-            variant="body2"
-            color="background.light"
-            underline="none"
-          >
+          <Link variant="body2" color="background.light">
             Privacy Policy
           </Link>
-          <Link
-            sx={{ cursor: "pointer" }}
-            variant="body2"
-            color="background.light"
-            underline="none"
-          >
+          <Link variant="body2" color="background.light">
             Copyright Statements
           </Link>
-          <Link
-            sx={{ cursor: "pointer" }}
-            variant="body2"
-            color="background.light"
-            underline="none"
-          >
+          <Link variant="body2" color="background.light">
             Disclamer
           </Link>
         </Stack>

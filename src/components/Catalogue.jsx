@@ -25,7 +25,7 @@ export default function Catalogue() {
         <Button
           variant="contained"
           size="large"
-          sx={{ borderRadius: 0, backgroundColor: "secondary.main" }}
+          sx={{ borderRadius: "2px", backgroundColor: "secondary.main" }}
           disableElevation
         >
           Show More

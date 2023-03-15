@@ -68,11 +68,9 @@ function ResponsiveTopAppBar() {
                   my: "auto",
                   color: "tertiary.main",
                   mr: 2,
-                  cursor: "pointer",
                   fontWeight: "400",
                 }}
                 variant="subtitle2"
-                underline="none"
               >
                 {page}
               </Link>
@@ -82,11 +80,9 @@ function ResponsiveTopAppBar() {
                 my: "auto",
                 mr: 3,
                 color: "secondary.main",
-                cursor: "pointer",
                 fontWeight: "700",
               }}
               variant="subtitle1"
-              underline="none"
             >
               Apply Now
             </Link>

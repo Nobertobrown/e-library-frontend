@@ -14,7 +14,8 @@ import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import MenuIcon from "@mui/icons-material/Menu";
-import Catalogue from "./Catalogue";
+// import Catalogue from "./Catalogue";
+import DetailCard from "./DetailCard";
 import CollectionsBookmarkOutlinedIcon from "@mui/icons-material/CollectionsBookmarkOutlined";
 import ComputerOutlinedIcon from "@mui/icons-material/ComputerOutlined";
 
@@ -45,7 +46,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "flex-start",
-  padding: theme.spacing(0, 2),
+  padding: theme.spacing(0, 1.5),
   ...theme.mixins.toolbar,
 }));
 
@@ -88,6 +89,9 @@ export default function MiniDrawer() {
           "& .MuiPaper-root": {
             position: "relative",
           },
+          "& .MuiTypography-root": {
+            fontFamily: "'Raleway', 'Poppins', 'Arial', sans-serif",
+          },
         }}
       >
         <DrawerHeader>
@@ -95,9 +99,7 @@ export default function MiniDrawer() {
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
-            edge="start"
             sx={{
-              marginRight: 5,
               ...(open && { display: "none" }),
             }}
           >
@@ -185,8 +187,8 @@ export default function MiniDrawer() {
         </List>
       </Drawer>
       <Container component="main" sx={{ flexGrow: 1 }} maxWidth="lg">
-        <Catalogue />
-        {/* <DetailCard /> */}
+        {/* <Catalogue /> */}
+        <DetailCard />
       </Container>
     </Box>
   );
