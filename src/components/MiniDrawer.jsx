@@ -15,7 +15,6 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import MenuIcon from "@mui/icons-material/Menu";
 import Catalogue from "./Catalogue";
-import DetailCard from "./DetailCard";
 import CollectionsBookmarkOutlinedIcon from "@mui/icons-material/CollectionsBookmarkOutlined";
 import ComputerOutlinedIcon from "@mui/icons-material/ComputerOutlined";
 
@@ -46,7 +45,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "flex-start",
-  padding: theme.spacing(0, 1.5),
+  padding: theme.spacing(0, 2),
   ...theme.mixins.toolbar,
 }));
 
@@ -81,19 +80,15 @@ export default function MiniDrawer() {
 
   return (
     <Box sx={{ display: "flex" }}>
-      {/* , position: "relative" */}
       <CssBaseline />
       <Drawer
         variant="permanent"
         open={open}
-        // sx={{
-        //   position: "relative",
-        //   "& .MuiPaper-root": {
-        //     overflowY: "initial",
-        //     position: "sticky",
-        //     top: 0,
-        //   },
-        // }}
+        sx={{
+          "& .MuiPaper-root": {
+            position: "relative",
+          },
+        }}
       >
         <DrawerHeader>
           <IconButton
@@ -109,7 +104,7 @@ export default function MiniDrawer() {
             <MenuIcon />
           </IconButton>
           <IconButton
-            // sx={{ display: !open && "none" }}
+            sx={{ display: !open && "none" }}
             onClick={handleDrawerClose}
           >
             {theme.direction === "rtl" ? (
@@ -189,9 +184,8 @@ export default function MiniDrawer() {
           ))}
         </List>
       </Drawer>
-      <Container component="main" sx={{ flexGrow: 1, p: 3 }}>
-        {/* maxWidth="lg" */}
-        {/* <Catalogue /> */}
+      <Container component="main" sx={{ flexGrow: 1 }} maxWidth="lg">
+        <Catalogue />
         {/* <DetailCard /> */}
       </Container>
     </Box>

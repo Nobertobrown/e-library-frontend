@@ -32,7 +32,7 @@ export default function BasicCard() {
           </Typography>
         </CardContent>
         <CardActions sx={{ p: 0 }}>
-          <Link sx={{ cursor: "pointer" }} underline="false">
+          <Link sx={{ cursor: "pointer" }} underline="none">
             principal@dit.ac.tz
           </Link>
         </CardActions>

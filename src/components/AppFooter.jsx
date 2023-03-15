@@ -19,7 +19,7 @@ function Footer() {
             sx={{ cursor: "pointer" }}
             variant="body2"
             color="background.light"
-            underline="false"
+            underline="none"
           >
             Terms and Conditions
           </Link>
@@ -27,7 +27,7 @@ function Footer() {
             sx={{ cursor: "pointer" }}
             variant="body2"
             color="background.light"
-            underline="false"
+            underline="none"
           >
             Privacy Policy
           </Link>
@@ -35,7 +35,7 @@ function Footer() {
             sx={{ cursor: "pointer" }}
             variant="body2"
             color="background.light"
-            underline="false"
+            underline="none"
           >
             Copyright Statements
           </Link>
@@ -43,7 +43,7 @@ function Footer() {
             sx={{ cursor: "pointer" }}
             variant="body2"
             color="background.light"
-            underline="false"
+            underline="none"
           >
             Disclamer
           </Link>
