@@ -22,6 +22,7 @@ export default function BasicCard() {
             sx={{
               borderColor: "secondary.main",
               mb: "26px",
+              borderBottomWidth: "2px",
             }}
           />
           <Typography variant="body1" component="p">

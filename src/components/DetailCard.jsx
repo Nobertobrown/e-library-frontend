@@ -3,7 +3,7 @@ import * as React from "react";
 
 function DetailCard() {
   return (
-    <Paper sx={{ display: "flex" }}>
+    <Paper sx={{ display: "flex", justifyContent: "space-evenly" }}>
       <img className="img-detail" src="/images/john-math.png" alt="math" />
       <Box>
         <Typography
