@@ -14,8 +14,8 @@ import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import MenuIcon from "@mui/icons-material/Menu";
-// import Catalogue from "./Catalogue";
-import DetailCard from "./DetailCard";
+import Catalogue from "./Catalogue";
+// import DetailCard from "./DetailCard";
 import CollectionsBookmarkOutlinedIcon from "@mui/icons-material/CollectionsBookmarkOutlined";
 import ComputerOutlinedIcon from "@mui/icons-material/ComputerOutlined";
 
@@ -87,7 +87,9 @@ export default function MiniDrawer() {
         open={open}
         sx={{
           "& .MuiPaper-root": {
+            zIndex: 0,
             position: "relative",
+            backgroundColor: "background.main",
           },
           "& .MuiTypography-root": {
             fontFamily: "'Raleway', 'Poppins', 'Arial', sans-serif",
@@ -187,8 +189,8 @@ export default function MiniDrawer() {
         </List>
       </Drawer>
       <Container component="main" sx={{ flexGrow: 1 }} maxWidth="lg">
-        {/* <Catalogue /> */}
-        <DetailCard />
+        <Catalogue />
+        {/* <DetailCard /> */}
       </Container>
     </Box>
   );

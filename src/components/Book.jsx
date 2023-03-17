@@ -5,7 +5,7 @@ function Book() {
   return (
     <Grid item lg={2.4}>
       {/* sm={4} md={3} */}
-      <Paper elevation={0} square>
+      <Paper elevation={0} sx={{ backgroundColor: "transparent" }} square>
         <img src="/images/floyd.png" alt="floyd.png" className="img" />
         <Box>
           <Rating name="read-only" value={5} precision={0.5} readOnly />
