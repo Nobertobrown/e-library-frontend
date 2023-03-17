@@ -14,10 +14,10 @@ import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import MenuIcon from "@mui/icons-material/Menu";
-import Catalogue from "./Catalogue";
-// import DetailCard from "./DetailCard";
 import CollectionsBookmarkOutlinedIcon from "@mui/icons-material/CollectionsBookmarkOutlined";
 import ComputerOutlinedIcon from "@mui/icons-material/ComputerOutlined";
+
+import { Outlet } from "react-router-dom";
 
 const drawerWidth = 355;
 
@@ -189,8 +189,7 @@ export default function MiniDrawer() {
         </List>
       </Drawer>
       <Container component="main" sx={{ flexGrow: 1 }} maxWidth="lg">
-        <Catalogue />
-        {/* <DetailCard /> */}
+        <Outlet />
       </Container>
     </Box>
   );
