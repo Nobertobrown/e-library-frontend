@@ -47,7 +47,7 @@ function ResponsiveMiddleAppBar() {
             >
               <img
                 className="logo"
-                src="/images/main.png"
+                src="http://localhost:8080/images/main.png"
                 alt="National Emblem"
               />
             </Box>
@@ -87,7 +87,11 @@ function ResponsiveMiddleAppBar() {
                 ml: 2.5,
               }}
             >
-              <img className="logo" src="/images/logo.png" alt="DIT Logo" />
+              <img
+                className="logo"
+                src="http://localhost:8080/images/logo.png"
+                alt="DIT Logo"
+              />
             </Box>
 
             <Box
@@ -140,7 +144,7 @@ function ResponsiveMiddleAppBar() {
 
       <Box
         sx={{
-          backgroundImage: "url(/images/page-title.jpg)",
+          backgroundImage: "url(http://localhost:8080/images/page-title.jpg)",
           color: "secondary.main",
           fontWeight: "400",
           height: "108px",

@@ -24,8 +24,7 @@ export const loader = (queryClient) => async () => {
 
 export default function Catalogue() {
   const { data } = useQuery(query.queryKey);
-  console.log(data.data);
-  const books = data.data;
+  const books = data.data["books"];
 
   return (
     <>
@@ -39,7 +38,7 @@ export default function Catalogue() {
           <Book
             key={book._id}
             id={book._id}
-            imgUrl={book.cover}
+            imgUrl={"http://localhost:8080" + book.imgUrl}
             title={book.title}
             rating={book.rating["value"]}
             author={book.author}

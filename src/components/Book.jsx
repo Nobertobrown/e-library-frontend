@@ -5,7 +5,11 @@ function Book(props) {
   return (
     <Grid item lg={2.4}>
       {/* sm={4} md={3} */}
-      <Paper elevation={0} sx={{ backgroundColor: "transparent" }} square>
+      <Paper
+        elevation={0}
+        sx={{ backgroundColor: "transparent", cursor: "pointer" }}
+        square
+      >
         <img src={props.imgUrl} alt={props.title} className="img" />
         <Box>
           <Rating

@@ -46,7 +46,10 @@ function ResponsiveTopAppBar() {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Box sx={{ display: { xs: "none", md: "none", lg: "flex" }, mr: 1 }}>
-            <img src="/images/dit-title0.png" alt="DIT Logo" />
+            <img
+              src="http://localhost:8080/images/dit-title0.png"
+              alt="DIT Logo"
+            />
           </Box>
 
           <Box
@@ -112,7 +115,10 @@ function ResponsiveTopAppBar() {
               justifyContent: "center",
             }}
           >
-            <img src="/images/dit-title0.png" alt="DIT Logo" />
+            <img
+              src="http://localhost:8080/images/dit-title0.png"
+              alt="DIT Logo"
+            />
           </Box>
 
           <Box

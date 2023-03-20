@@ -22,12 +22,11 @@ import { styled } from "@mui/material/styles";
 import { useQuery } from "react-query";
 import axios from "axios";
 
-const detailsQuery = (url, id) => ({
+const detailsQuery = (url) => ({
   queryKey: ["getDetails"],
   queryFn: async () => {
     const data = await axios.get(url);
-    const books = data.data;
-    const details = books.filter((book) => book._id === id);
+    const details = data.data["book"];
     return details;
   },
 });
@@ -36,7 +35,7 @@ export const loader =
   (queryClient) =>
   async ({ params }) => {
     let url = `http://localhost:8080/catalogue/books/${params.bookId}`;
-    const query = detailsQuery(url, params.bookId);
+    const query = detailsQuery(url);
     return (
       queryClient.getQueryData(query.queryKey) ??
       (await queryClient.fetchQuery(query))
@@ -53,7 +52,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 function DetailCard() {
   const { data } = useQuery("getDetails");
-  const book = data[0];
+  const book = data;
 
   return (
     <>
@@ -68,7 +67,11 @@ function DetailCard() {
           mt: 4.5,
         }}
       >
-        <img className="img-detail" src={book.cover} alt={book.title} />
+        <img
+          className="img-detail"
+          src={"http://localhost:8080" + book.imgUrl}
+          alt={book.title}
+        />
         <Box>
           <Typography
             color="primary.light"
@@ -92,8 +95,8 @@ function DetailCard() {
           <Box sx={{ display: "flex", gap: 0.625, mt: 1, mb: 0.625 }}>
             <LocalOfferOutlinedIcon />
             <Stack direction="row" spacing={0.625}>
-              {book.tags.map((tag) => (
-                <Item>{tag}</Item>
+              {book.tags.map((tag, index) => (
+                <Item key={index}>{tag}</Item>
               ))}
             </Stack>
           </Box>
@@ -168,7 +171,7 @@ function DetailCard() {
               </Typography>
               <NumbersOutlinedIcon />
               <Typography variant="body2" component="p" fontWeight={500}>
-                {book.print_length} pages
+                {book.printLength} pages
               </Typography>
             </Box>
             <Box
@@ -210,7 +213,7 @@ function DetailCard() {
               </Typography>
               <CalendarTodayOutlinedIcon />
               <Typography variant="body2" component="p" fontWeight={500}>
-                {book.published_date}
+                {new Date(book.publishedAt).toDateString()}
               </Typography>
             </Box>
           </Stack>
