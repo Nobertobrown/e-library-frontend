@@ -2,7 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
-import Catalogue from "./components/Catalogue";
+import ErrorPage from "./error-page";
+import Index from "./components/index";
+import Catalogue, { loader as booksLoader } from "./components/Catalogue";
 import DetailCard from "./components/DetailCard";
 import { createTheme, ThemeProvider } from "@mui/material";
 import {
@@ -11,6 +13,8 @@ import {
   RouterProvider,
   Route,
 } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 
 const theme = createTheme({
   components: {
@@ -73,6 +77,13 @@ const theme = createTheme({
   },
 });
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60,
+    },
+  },
+});
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 const router = createBrowserRouter(
@@ -82,32 +93,35 @@ const router = createBrowserRouter(
       element={<App />}
       // loader={rootLoader}
       // action={rootAction}
-      // errorElement={<ErrorPage />}
+      errorElement={<ErrorPage />}
     >
-      {/* <Route errorElement={<ErrorPage />}>
-        <Route index element={<Index />} /> */}
-      <Route
-        path="catalogue/books"
-        element={<Catalogue />}
-        // loader={contactLoader}
-        // action={contactAction}
-      />
-      <Route
-        path="catalogue/books/book"
-        element={<DetailCard />}
-        // loader={contactLoader}
-        // action={editAction}
-      />
-      {/* <Route path="contacts/:contactId/destroy" action={destroyAction} /> */}
+      <Route errorElement={<ErrorPage />}>
+        <Route index element={<Index />} />
+        <Route
+          path="catalogue/books"
+          element={<Catalogue />}
+          loader={booksLoader(queryClient)}
+          // action={contactAction}
+        />
+        <Route
+          path="catalogue/books/book"
+          element={<DetailCard />}
+          // loader={contactLoader}
+          // action={editAction}
+        />
+        {/* <Route path="contacts/:contactId/destroy" action={destroyAction} /> */}
+      </Route>
     </Route>
-    // </Route>
   )
 );
 
 root.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <RouterProvider router={router} />
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme}>
+        <RouterProvider router={router} />
+      </ThemeProvider>
+      <ReactQueryDevtools />
+    </QueryClientProvider>
   </React.StrictMode>
 );
