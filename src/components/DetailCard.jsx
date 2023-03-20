@@ -19,6 +19,29 @@ import TranslateOutlinedIcon from "@mui/icons-material/TranslateOutlined";
 import ApartmentOutlinedIcon from "@mui/icons-material/ApartmentOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import { styled } from "@mui/material/styles";
+import { useQuery } from "react-query";
+import axios from "axios";
+
+const detailsQuery = (url, id) => ({
+  queryKey: ["getDetails"],
+  queryFn: async () => {
+    const data = await axios.get(url);
+    const books = data.data;
+    const details = books.filter((book) => book._id === id);
+    return details;
+  },
+});
+
+export const loader =
+  (queryClient) =>
+  async ({ params }) => {
+    let url = `http://localhost:8080/catalogue/books/${params.bookId}`;
+    const query = detailsQuery(url, params.bookId);
+    return (
+      queryClient.getQueryData(query.queryKey) ??
+      (await queryClient.fetchQuery(query))
+    );
+  };
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.secondary.main,
@@ -29,6 +52,9 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 function DetailCard() {
+  const { data } = useQuery("getDetails");
+  const book = data[0];
+
   return (
     <>
       <Paper
@@ -42,7 +68,7 @@ function DetailCard() {
           mt: 4.5,
         }}
       >
-        <img className="img-detail" src="/images/john-math.png" alt="math" />
+        <img className="img-detail" src={book.cover} alt={book.title} />
         <Box>
           <Typography
             color="primary.light"
@@ -51,7 +77,7 @@ function DetailCard() {
             fontWeight="500"
             fontSize="1.5rem"
           >
-            Engineering Mathematics
+            {book.title}
             <br /> by{" "}
             <Typography
               color="secondary.main"
@@ -60,25 +86,30 @@ function DetailCard() {
               fontWeight="500"
               fontSize="1.5rem"
             >
-              John Bird
+              {book.author}
             </Typography>
           </Typography>
           <Box sx={{ display: "flex", gap: 0.625, mt: 1, mb: 0.625 }}>
             <LocalOfferOutlinedIcon />
             <Stack direction="row" spacing={0.625}>
-              <Item>Fiction</Item>
-              <Item>Adventure</Item>
-              <Item>Horror</Item>
+              {book.tags.map((tag) => (
+                <Item>{tag}</Item>
+              ))}
             </Stack>
           </Box>
           <Box display="flex" gap={2.125} mb={1}>
-            <Rating name="read-only" value={5} precision={0.5} readOnly />
+            <Rating
+              name="read-only"
+              value={book.rating.value}
+              precision={0.5}
+              readOnly
+            />
             <Typography
               variant="subtitle1"
               component="span"
               color="tertiary.main"
             >
-              2,659 Ratings
+              {book.rating.number} Ratings
             </Typography>
           </Box>
           <Divider sx={{ mb: 2.5 }} />
@@ -110,15 +141,7 @@ function DetailCard() {
               </Button>
             </Box>
             <Typography paragraph variant="body1" component="p">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Eros
-              donec ac odio tempor orci dapibus. A arcu cursus vitae congue
-              mauris rhoncus aenean vel elit. Pellentesque diam volutpat commodo
-              sed egestas. Turpis tincidunt id aliquet risus feugiat
-            </Typography>
-            <Typography paragraph variant="body1" component="p">
-              Mattis enim ut tellus elementum sagittis. Augue lacus viverra
-              vitae congue. Tempor commodo ullamcorper
+              {book.description}
             </Typography>
             <Link
               sx={{
@@ -145,7 +168,7 @@ function DetailCard() {
               </Typography>
               <NumbersOutlinedIcon />
               <Typography variant="body2" component="p" fontWeight={500}>
-                448 pages
+                {book.print_length} pages
               </Typography>
             </Box>
             <Box
@@ -159,7 +182,7 @@ function DetailCard() {
               </Typography>
               <TranslateOutlinedIcon />
               <Typography variant="body2" component="p" fontWeight={500}>
-                English
+                {book.languages[0]}
               </Typography>
             </Box>
             <Box
@@ -173,7 +196,7 @@ function DetailCard() {
               </Typography>
               <ApartmentOutlinedIcon />
               <Typography variant="body2" component="p" fontWeight={500}>
-                Penguin Classics
+                {book.publisher}
               </Typography>
             </Box>
             <Box
@@ -187,7 +210,7 @@ function DetailCard() {
               </Typography>
               <CalendarTodayOutlinedIcon />
               <Typography variant="body2" component="p" fontWeight={500}>
-                May 3, 2016
+                {book.published_date}
               </Typography>
             </Box>
           </Stack>

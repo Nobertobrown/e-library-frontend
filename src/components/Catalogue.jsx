@@ -8,14 +8,14 @@ import axios from "axios";
 const booksQuery = (url) => ({
   queryKey: "getBooks",
   queryFn: async () => {
-    const books = await axios.get(url);
-    return books;
+    const data = await axios.get(url);
+    return data;
   },
 });
+let url = "http://localhost:8080/catalogue/books";
+const query = booksQuery(url);
 
 export const loader = (queryClient) => async () => {
-  let url = "http://localhost:8080/catalogue/books";
-  const query = booksQuery(url);
   return (
     queryClient.getQueryData(query.queryKey) ??
     (await queryClient.fetchQuery(query))
@@ -23,11 +23,9 @@ export const loader = (queryClient) => async () => {
 };
 
 export default function Catalogue() {
-  const { data: books } = useQuery(
-    booksQuery("http://localhost:8080/catalogue/books")
-  );
-  const { first, second } = books;
-  console.log(first, second);
+  const { data } = useQuery(query.queryKey);
+  console.log(data.data);
+  const books = data.data;
 
   return (
     <>
@@ -37,14 +35,16 @@ export default function Catalogue() {
         </Typography>
       </Box>
       <Grid container spacing={7.25}>
-        <Book />
-        <Book />
-        <Book />
-        <Book />
-        <Book />
-        <Book />
-        <Book />
-        <Book />
+        {books.map((book) => (
+          <Book
+            key={book._id}
+            id={book._id}
+            imgUrl={book.cover}
+            title={book.title}
+            rating={book.rating["value"]}
+            author={book.author}
+          />
+        ))}
       </Grid>
       <Box display="flex" paddingY="35px" justifyContent="center">
         <Button

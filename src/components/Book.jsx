@@ -1,23 +1,28 @@
 import React from "react";
 import { Grid, Paper, Rating, Typography, Box } from "@mui/material";
 
-function Book() {
+function Book(props) {
   return (
     <Grid item lg={2.4}>
       {/* sm={4} md={3} */}
       <Paper elevation={0} sx={{ backgroundColor: "transparent" }} square>
-        <img src="/images/floyd.png" alt="floyd.png" className="img" />
+        <img src={props.imgUrl} alt={props.title} className="img" />
         <Box>
-          <Rating name="read-only" value={5} precision={0.5} readOnly />
+          <Rating
+            name="read-only"
+            value={props.rating}
+            precision={0.5}
+            readOnly
+          />
         </Box>
         <Box>
           <Typography variant="h6" component="h6">
-            Electronic Devices
+            {props.title}
           </Typography>
         </Box>
         <Box>
           <Typography variant="caption" component="p">
-            Floyd
+            {props.author}
           </Typography>
         </Box>
       </Paper>

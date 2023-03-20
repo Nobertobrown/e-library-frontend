@@ -5,7 +5,7 @@ import App from "./App";
 import ErrorPage from "./error-page";
 import Index from "./components/index";
 import Catalogue, { loader as booksLoader } from "./components/Catalogue";
-import DetailCard from "./components/DetailCard";
+import DetailCard, { loader as detailsLoader } from "./components/DetailCard";
 import { createTheme, ThemeProvider } from "@mui/material";
 import {
   createRoutesFromElements,
@@ -104,9 +104,9 @@ const router = createBrowserRouter(
           // action={contactAction}
         />
         <Route
-          path="catalogue/books/book"
+          path="catalogue/books/:bookId"
           element={<DetailCard />}
-          // loader={contactLoader}
+          loader={detailsLoader(queryClient)}
           // action={editAction}
         />
         {/* <Route path="contacts/:contactId/destroy" action={destroyAction} /> */}
