@@ -23,7 +23,7 @@ export const loader = (queryClient) => async () => {
 };
 
 export default function Catalogue() {
-  const { data } = useQuery(query.queryKey);
+  const { data } = useQuery(query);
   const books = data.data["books"];
 
   return (
@@ -34,9 +34,9 @@ export default function Catalogue() {
         </Typography>
       </Box>
       <Grid container spacing={7.25}>
-        {books.map((book) => (
+        {books.map((book, index) => (
           <Book
-            key={book._id}
+            key={index}
             id={book._id}
             imgUrl={"http://localhost:8080" + book.imgUrl}
             title={book.title}

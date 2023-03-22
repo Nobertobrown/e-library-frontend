@@ -21,6 +21,7 @@ import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined
 import { styled } from "@mui/material/styles";
 import { useQuery } from "react-query";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const detailsQuery = (url) => ({
   queryKey: ["getDetails"],
@@ -51,7 +52,10 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 function DetailCard() {
-  const { data } = useQuery("getDetails");
+  const params = useParams();
+  const { data } = useQuery(
+    detailsQuery(`http://localhost:8080/catalogue/books/${params.bookId}`)
+  );
   const book = data;
 
   return (

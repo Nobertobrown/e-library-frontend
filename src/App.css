@@ -15,3 +15,8 @@
   width: 254px;
   height: 393px;
 }
+
+.link {
+  text-decoration: none;
+  color: initial;
+}
