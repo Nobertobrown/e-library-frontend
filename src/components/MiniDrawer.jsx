@@ -18,6 +18,7 @@ import CollectionsBookmarkOutlinedIcon from "@mui/icons-material/CollectionsBook
 import ComputerOutlinedIcon from "@mui/icons-material/ComputerOutlined";
 
 import { Outlet } from "react-router-dom";
+import { Typography } from "@mui/material";
 
 const drawerWidth = 355;
 
@@ -96,6 +97,7 @@ export default function MiniDrawer() {
           },
         }}
       >
+        {/* sx={{ mt: 17, mb: 4.5 }} */}
         <DrawerHeader>
           <IconButton
             color="inherit"
@@ -103,12 +105,13 @@ export default function MiniDrawer() {
             onClick={handleDrawerOpen}
             sx={{
               ...(open && { display: "none" }),
+              color: "primary.light",
             }}
           >
             <MenuIcon />
           </IconButton>
           <IconButton
-            sx={{ display: !open && "none" }}
+            sx={{ display: !open && "none", color: "primary.light" }}
             onClick={handleDrawerClose}
           >
             {theme.direction === "rtl" ? (
@@ -117,8 +120,19 @@ export default function MiniDrawer() {
               <ChevronLeftIcon />
             )}
           </IconButton>
+          <Typography
+            variant="h5"
+            component="h5"
+            fontWeight={500}
+            sx={{
+              display: !open && "none",
+              color: "primary.light",
+            }}
+          >
+            Shelves
+          </Typography>
         </DrawerHeader>
-        <Divider />
+        {/* <Divider /> */}
         <List>
           {[
             "All Collections",
@@ -145,6 +159,7 @@ export default function MiniDrawer() {
                     minWidth: 0,
                     mr: open ? 3 : "auto",
                     justifyContent: "center",
+                    color: "primary.light",
                   }}
                 >
                   {index % 2 === 0 ? (
@@ -153,7 +168,10 @@ export default function MiniDrawer() {
                     <ComputerOutlinedIcon />
                   )}
                 </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                <ListItemText
+                  primary={text}
+                  sx={{ opacity: open ? 1 : 0, color: "primary.light" }}
+                />
               </ListItemButton>
             </ListItem>
           ))}
@@ -174,6 +192,7 @@ export default function MiniDrawer() {
                     minWidth: 0,
                     mr: open ? 3 : "auto",
                     justifyContent: "center",
+                    color: "primary.light",
                   }}
                 >
                   {index % 2 === 0 ? (
@@ -182,7 +201,10 @@ export default function MiniDrawer() {
                     <ComputerOutlinedIcon />
                   )}
                 </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                <ListItemText
+                  primary={text}
+                  sx={{ opacity: open ? 1 : 0, color: "primary.light" }}
+                />
               </ListItemButton>
             </ListItem>
           ))}

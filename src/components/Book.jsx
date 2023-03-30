@@ -18,12 +18,12 @@ function Book(props) {
             />
           </Box>
           <Box>
-            <Typography variant="h6" component="h6">
+            <Typography variant="h6" component="h6" color="primary.light">
               {props.title}
             </Typography>
           </Box>
           <Box>
-            <Typography variant="caption" component="p">
+            <Typography variant="caption" component="p" color="tertiary.main">
               {props.author}
             </Typography>
           </Box>

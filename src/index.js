@@ -70,7 +70,7 @@ const theme = createTheme({
       vibrant: "#FBBC05",
     },
     background: {
-      main: "#D9D9D9",
+      main: "#E6E9E9",
       light: "#FFFFFF",
       dark: "#303030",
     },

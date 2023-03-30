@@ -217,7 +217,11 @@ function DetailCard() {
               </Typography>
               <CalendarTodayOutlinedIcon />
               <Typography variant="body2" component="p" fontWeight={500}>
-                {new Date(book.publishedAt).toDateString()}
+                {new Date(book.publishedAt).toLocaleDateString("en-US", {
+                  day: "2-digit",
+                  month: "long",
+                  year: "numeric",
+                })}
               </Typography>
             </Box>
           </Stack>
