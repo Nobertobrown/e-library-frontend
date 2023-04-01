@@ -4,6 +4,7 @@ import ResponsiveTopAppBar from "./components/TopAppBar";
 import ResponsiveMiddleAppBar from "./components/MiddleAppBar";
 import MiniDrawer from "./components/MiniDrawer";
 import Footer from "./components/AppFooter";
+import Newsletter from "./components/Newsletter";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <ResponsiveTopAppBar />
       <ResponsiveMiddleAppBar />
       <MiniDrawer />
+      <Newsletter />
       <Footer />
     </>
   );

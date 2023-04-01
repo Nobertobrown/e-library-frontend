@@ -45,7 +45,9 @@ export default function SearchBar() {
   return (
     <Autocomplete
       id="asynchronous-demo"
-      sx={{ width: 350 }}
+      sx={{
+        width: 350,
+      }}
       open={open}
       onOpen={() => {
         setOpen(true);
@@ -65,7 +67,10 @@ export default function SearchBar() {
             ...params.InputProps,
             startAdornment: (
               <InputAdornment position="start">
-                <IconButton aria-label="Filter searches">
+                <IconButton
+                  sx={{ "& .MuiSvgIcon-root": { color: "secondary.main" } }}
+                  aria-label="Filter searches"
+                >
                   <TuneOutlinedIcon />
                 </IconButton>
               </InputAdornment>
@@ -73,7 +78,10 @@ export default function SearchBar() {
             endAdornment: (
               <React.Fragment>
                 {loading ? (
-                  <CircularProgress color="inherit" size={20} />
+                  <CircularProgress
+                    sx={{ color: "secondary.main" }}
+                    size={20}
+                  />
                 ) : null}
               </React.Fragment>
             ),
