@@ -1,10 +1,10 @@
 import * as React from "react";
 import Typography from "@mui/material/Typography";
 import { Grid, Box, Button } from "@mui/material";
-import Book from "./Book";
+import Book from "../../components/Book/Book";
 import { useQuery } from "react-query";
 import axios from "axios";
-import SearchBar from "./SearchBar";
+import SearchBar from "../../components/SearchBar/SearchBar";
 
 const booksQuery = (url) => ({
   queryKey: "getBooks",
@@ -29,19 +29,7 @@ export default function Catalogue() {
 
   return (
     <>
-      <Box mt={2.75} display="flex" alignItems="center" flexDirection="column">
-        <Typography
-          variant="h6"
-          component="h6"
-          fontWeight={400}
-          mb={1.75}
-          fontFamily="'Raleway', 'Poppins', 'Arial', sans-serif"
-          color="primary.main"
-        >
-          Find Items In The Library
-        </Typography>
-        <SearchBar />
-      </Box>
+      <SearchBar />
       <Box marginY="38px">
         <Typography variant="h5" component="h2" color="primary.light">
           Computer Studies

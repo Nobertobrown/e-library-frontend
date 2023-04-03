@@ -2,82 +2,16 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
-import ErrorPage from "./error-page";
-import Index from "./components/index";
-import Catalogue, { loader as booksLoader } from "./components/Catalogue";
-import DetailCard, { loader as detailsLoader } from "./components/DetailCard";
-import { createTheme, ThemeProvider } from "@mui/material";
-import {
-  createRoutesFromElements,
-  createBrowserRouter,
-  RouterProvider,
-  Route,
-} from "react-router-dom";
+import SignUpPage from "./routes/Auth/SignUp";
+import Index from "./routes/index";
+import ErrorPage from "./components/ErrorHandler/error-page";
+import Catalogue, { loader as booksLoader } from "./routes/Lib/Catalogue";
+import DetailCard, { loader as detailsLoader } from "./routes/Lib/DetailCard";
+import theme from "./theme";
+import { ThemeProvider } from "@mui/material";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
-
-const theme = createTheme({
-  components: {
-    // MuiButtonBase: {
-    //   defaultProps: {
-    //     disableRipple: true,
-    //   },
-    // },
-    MuiLink: {
-      defaultProps: {
-        underline: "none",
-      },
-      styleOverrides: {
-        root: {
-          cursor: "pointer",
-        },
-      },
-    },
-  },
-
-  typography: {
-    fontFamily: [
-      '"Poppins"',
-      '"Raleway"',
-      '"Roboto"',
-      "Arial",
-      "sans-serif",
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(","),
-  },
-  breakpoints: {
-    values: {
-      xs: 0,
-      sm: 600,
-      md: 900,
-      lg: 1200,
-      xl: 1400,
-    },
-  },
-  palette: {
-    primary: {
-      main: "#192F59",
-      light: "#163269",
-    },
-    secondary: {
-      main: "#148EB7",
-      light: "#3B70B2",
-    },
-    tertiary: {
-      main: "#919BAD",
-      vibrant: "#FBBC05",
-    },
-    background: {
-      main: "#E6E9E9",
-      main2: "#F6F6F6",
-      intermediate: "#EFEFEF",
-      light: "#FFFFFF",
-      dark: "#303030",
-    },
-  },
-});
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -88,34 +22,47 @@ const queryClient = new QueryClient({
 });
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route
-      path="/"
-      element={<App />}
-      // loader={rootLoader}
-      // action={rootAction}
-      errorElement={<ErrorPage />}
-    >
-      <Route errorElement={<ErrorPage />}>
-        <Route index element={<Index />} />
-        <Route
-          path="catalogue/books"
-          element={<Catalogue />}
-          loader={booksLoader(queryClient)}
-          // action={contactAction}
-        />
-        <Route
-          path="catalogue/books/:bookId"
-          element={<DetailCard />}
-          loader={detailsLoader(queryClient)}
-          // action={editAction}
-        />
-        {/* <Route path="contacts/:contactId/destroy" action={destroyAction} /> */}
-      </Route>
-    </Route>
-  )
-);
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+    errorElement: <ErrorPage />,
+    // loader: rootLoader,
+    // action: rootAction,
+    children: [
+      {
+        errorElement: <ErrorPage />,
+        children: [
+          {
+            index: true,
+            element: <Index />,
+          },
+          {
+            path: "catalogue/books",
+            element: <Catalogue />,
+            loader: booksLoader(queryClient),
+            // action: contactAction,
+          },
+          {
+            path: "catalogue/books/:bookId",
+            element: <DetailCard />,
+            loader: detailsLoader(queryClient),
+            // action: editAction,
+          },
+          // {
+          //   path: "contacts/:contactId/destroy",
+          //   action: destroyAction,
+          // },
+        ],
+      },
+    ],
+  },
+  {
+    path: "/signup",
+    element: <SignUpPage />,
+    errorElement: <ErrorPage />,
+  },
+]);
 
 root.render(
   <React.StrictMode>

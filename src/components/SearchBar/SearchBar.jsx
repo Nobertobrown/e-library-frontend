@@ -1,5 +1,6 @@
 import * as React from "react";
 import TextField from "@mui/material/TextField";
+import { Box, Typography } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import CircularProgress from "@mui/material/CircularProgress";
 import TuneOutlinedIcon from "@mui/icons-material/TuneOutlined";
@@ -43,52 +44,64 @@ export default function SearchBar() {
   }, [open]);
 
   return (
-    <Autocomplete
-      id="asynchronous-demo"
-      sx={{
-        width: 350,
-      }}
-      open={open}
-      onOpen={() => {
-        setOpen(true);
-      }}
-      onClose={() => {
-        setOpen(false);
-      }}
-      isOptionEqualToValue={(option, value) => option.title === value.title}
-      getOptionLabel={(option) => option.title}
-      options={options}
-      loading={loading}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          placeholder="Search for books and more"
-          InputProps={{
-            ...params.InputProps,
-            startAdornment: (
-              <InputAdornment position="start">
-                <IconButton
-                  sx={{ "& .MuiSvgIcon-root": { color: "secondary.main" } }}
-                  aria-label="Filter searches"
-                >
-                  <TuneOutlinedIcon />
-                </IconButton>
-              </InputAdornment>
-            ),
-            endAdornment: (
-              <React.Fragment>
-                {loading ? (
-                  <CircularProgress
-                    sx={{ color: "secondary.main" }}
-                    size={20}
-                  />
-                ) : null}
-              </React.Fragment>
-            ),
-          }}
-        />
-      )}
-    />
+    <Box mt={2.75} display="flex" alignItems="center" flexDirection="column">
+      <Typography
+        variant="h6"
+        component="h6"
+        fontWeight={400}
+        mb={1.75}
+        fontFamily="'Raleway', 'Poppins', 'Arial', sans-serif"
+        color="primary.main"
+      >
+        Find Items In The Library
+      </Typography>
+      <Autocomplete
+        id="asynchronous-demo"
+        sx={{
+          width: 350,
+        }}
+        open={open}
+        onOpen={() => {
+          setOpen(true);
+        }}
+        onClose={() => {
+          setOpen(false);
+        }}
+        isOptionEqualToValue={(option, value) => option.title === value.title}
+        getOptionLabel={(option) => option.title}
+        options={options}
+        loading={loading}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            placeholder="Search for books and more"
+            InputProps={{
+              ...params.InputProps,
+              startAdornment: (
+                <InputAdornment position="start">
+                  <IconButton
+                    sx={{ "& .MuiSvgIcon-root": { color: "secondary.main" } }}
+                    aria-label="Filter searches"
+                  >
+                    <TuneOutlinedIcon />
+                  </IconButton>
+                </InputAdornment>
+              ),
+              endAdornment: (
+                <React.Fragment>
+                  {loading ? (
+                    <CircularProgress
+                      sx={{ color: "secondary.main" }}
+                      size={20}
+                    />
+                  ) : null}
+                </React.Fragment>
+              ),
+            }}
+          />
+        )}
+      />
+    </Box>
   );
 }
 

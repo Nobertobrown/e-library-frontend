@@ -9,7 +9,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import Carousel from "./Carousel";
+import Carousel from "../../components/Carousel/Carousel";
 import LocalOfferOutlinedIcon from "@mui/icons-material/LocalOfferOutlined";
 import LocalLibraryOutlinedIcon from "@mui/icons-material/LocalLibraryOutlined";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
@@ -22,6 +22,8 @@ import { styled } from "@mui/material/styles";
 import { useQuery } from "react-query";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import SearchBar from "../../components/SearchBar/SearchBar";
+import ReviewsCard from "../../components/ReviewsCard/ReviewsCard";
 
 const detailsQuery = (url) => ({
   queryKey: ["getDetails"],
@@ -60,22 +62,55 @@ function DetailCard() {
 
   return (
     <>
+      <SearchBar />
       <Paper
         sx={{
           display: "flex",
           gap: 6.75,
           borderRadius: "10px",
-          backgroundColor: "background.main",
+          backgroundColor: "background.main2",
           px: 3.125,
           py: 5,
           mt: 4.5,
         }}
       >
-        <img
-          className="img-detail"
-          src={"http://localhost:8080" + book.imgUrl}
-          alt={book.title}
-        />
+        {/* my={2.625}  */}
+        <Box display="flex" flexDirection="column" gap={1.25}>
+          <img
+            className="img-detail"
+            src={"http://localhost:8080" + book.imgUrl}
+            alt={book.title}
+          />
+          <Button
+            variant="contained"
+            size="large"
+            sx={{
+              borderRadius: "2px",
+              backgroundColor: "secondary.main",
+              mt: 1,
+            }}
+            disableElevation
+            fullWidth
+            // endIcon={<LocalLibraryOutlinedIcon />}
+          >
+            Rate Book
+          </Button>
+
+          <Button
+            variant="outlined"
+            size="large"
+            sx={{
+              borderRadius: "2px",
+              borderColor: "secondary.main",
+              color: "secondary.main",
+            }}
+            disableElevation
+            fullWidth
+            // endIcon={<FileDownloadOutlinedIcon />}
+          >
+            Leave Review
+          </Button>
+        </Box>
         <Box>
           <Typography
             color="primary.light"
@@ -139,6 +174,7 @@ function DetailCard() {
                 size="large"
                 sx={{
                   borderRadius: "2px",
+                  borderColor: "secondary.main",
                   color: "secondary.main",
                 }}
                 disableElevation
@@ -227,6 +263,7 @@ function DetailCard() {
           </Stack>
         </Box>
       </Paper>
+      <ReviewsCard />
       <Carousel />
     </>
   );

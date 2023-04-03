@@ -144,32 +144,32 @@ export default function MiniDrawer() {
         <List>
           {[
             {
-              title: "All Collections",
+              name: "All Collections",
               icon: <CollectionsBookmarkOutlinedIcon />,
             },
-            { title: "Computer Studies", icon: <ComputerOutlinedIcon /> },
-            { title: "Civil Engineering", icon: <ConstructionOutlinedIcon /> },
+            { name: "Computer Studies", icon: <ComputerOutlinedIcon /> },
+            { name: "Civil Engineering", icon: <ConstructionOutlinedIcon /> },
             {
-              title: "Electrical Engineering",
+              name: "Electrical Engineering",
               icon: <ElectricalServicesOutlinedIcon />,
             },
             {
-              title: "Electronics & Telecommunicatio",
+              name: "Electronics & Telecommunicatio",
               icon: <WifiCalling3OutlinedIcon />,
             },
             {
-              title: "Mechanical Engineering",
+              name: "Mechanical Engineering",
               icon: <EngineeringOutlinedIcon />,
             },
             {
-              title: "Science & Laboratory Technologys",
+              name: "Science & Laboratory Technologys",
               icon: <ScienceOutlinedIcon />,
             },
-            { title: "General Studies", icon: <PublicOutlinedIcon /> },
-            { title: "Research & Publications", icon: <BookOutlinedIcon /> },
-            { title: "External Resources", icon: <SourceOutlinedIcon /> },
+            { name: "General Studies", icon: <PublicOutlinedIcon /> },
+            { name: "Research & Publications", icon: <BookOutlinedIcon /> },
+            { name: "External Resources", icon: <SourceOutlinedIcon /> },
           ].map((text, index) => (
-            <ListItem key={text.title} disablePadding sx={{ display: "block" }}>
+            <ListItem key={text.name} disablePadding sx={{ display: "block" }}>
               <ListItemButton
                 sx={{
                   minHeight: 48,
@@ -188,7 +188,7 @@ export default function MiniDrawer() {
                   {text.icon}
                 </ListItemIcon>
                 <ListItemText
-                  primary={text.title}
+                  primary={text.name}
                   sx={{ opacity: open ? 1 : 0, color: "primary.light" }}
                 />
               </ListItemButton>
