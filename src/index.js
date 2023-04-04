@@ -2,8 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
-import SignUpPage from "./routes/Auth/SignUp";
 import Index from "./routes/index";
+import SignUpPage from "./routes/Auth/SignUp";
+import MiniDrawer from "./components/Drawer/MiniDrawer";
 import ErrorPage from "./components/ErrorHandler/error-page";
 import Catalogue, { loader as booksLoader } from "./routes/Lib/Catalogue";
 import DetailCard, { loader as detailsLoader } from "./routes/Lib/DetailCard";
@@ -12,6 +13,7 @@ import { ThemeProvider } from "@mui/material";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+import LoginPage from "./routes/Auth/Login";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -38,29 +40,42 @@ const router = createBrowserRouter([
             element: <Index />,
           },
           {
-            path: "catalogue/books",
-            element: <Catalogue />,
-            loader: booksLoader(queryClient),
-            // action: contactAction,
+            path: "catalogue",
+            element: <MiniDrawer />,
+            children: [
+              {
+                index: true,
+                element: <Index />,
+              },
+              {
+                path: "books",
+                element: <Catalogue />,
+                loader: booksLoader(queryClient),
+                // action: contactAction,
+              },
+              {
+                path: "books/:bookId",
+                element: <DetailCard />,
+                loader: detailsLoader(queryClient),
+                // action: editAction,
+              },
+              // {
+              //   path: "contacts/:contactId/destroy",
+              //   action: destroyAction,
+              // },
+            ],
           },
           {
-            path: "catalogue/books/:bookId",
-            element: <DetailCard />,
-            loader: detailsLoader(queryClient),
-            // action: editAction,
+            path: "/signup",
+            element: <SignUpPage />,
           },
-          // {
-          //   path: "contacts/:contactId/destroy",
-          //   action: destroyAction,
-          // },
+          {
+            path: "/login",
+            element: <LoginPage />,
+          },
         ],
       },
     ],
-  },
-  {
-    path: "/signup",
-    element: <SignUpPage />,
-    errorElement: <ErrorPage />,
   },
 ]);
 

@@ -1,5 +1,6 @@
 import * as React from "react";
 import { styled, useTheme } from "@mui/material/styles";
+import Newsletter from "../Newsletter/Newsletter";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
@@ -89,113 +90,118 @@ export default function MiniDrawer() {
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <CssBaseline />
-      <Drawer
-        variant="permanent"
-        open={open}
-        sx={{
-          "& .MuiPaper-root": {
-            zIndex: 0,
-            position: "relative",
-            backgroundColor: "background.main2",
-          },
-          "& .MuiTypography-root": {
-            fontFamily: "'Raleway', 'Poppins', 'Arial', sans-serif",
-          },
-        }}
-      >
-        {/* sx={{ mt: 17, mb: 4.5 }} */}
-        <DrawerHeader>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            sx={{
-              ...(open && { display: "none" }),
-              color: "primary.light",
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <IconButton
-            sx={{ display: !open && "none", color: "primary.light" }}
-            onClick={handleDrawerClose}
-          >
-            {theme.direction === "rtl" ? (
-              <ChevronRightIcon />
-            ) : (
-              <ChevronLeftIcon />
-            )}
-          </IconButton>
-          <Typography
-            variant="h5"
-            component="h5"
-            fontWeight={500}
-            sx={{
-              display: !open && "none",
-              color: "primary.light",
-            }}
-          >
-            Shelves
-          </Typography>
-        </DrawerHeader>
-        {/* <Divider /> */}
-        <List>
-          {[
-            {
-              name: "All Collections",
-              icon: <CollectionsBookmarkOutlinedIcon />,
+    <>
+      <Box sx={{ display: "flex" }}>
+        <CssBaseline />
+        <Drawer
+          variant="permanent"
+          open={open}
+          sx={{
+            "& .MuiPaper-root": {
+              zIndex: 0,
+              position: "relative",
+              backgroundColor: "background.main2",
             },
-            { name: "Computer Studies", icon: <ComputerOutlinedIcon /> },
-            { name: "Civil Engineering", icon: <ConstructionOutlinedIcon /> },
-            {
-              name: "Electrical Engineering",
-              icon: <ElectricalServicesOutlinedIcon />,
+            "& .MuiTypography-root": {
+              fontFamily: "'Raleway', 'Poppins', 'Arial', sans-serif",
             },
-            {
-              name: "Electronics & Telecommunicatio",
-              icon: <WifiCalling3OutlinedIcon />,
-            },
-            {
-              name: "Mechanical Engineering",
-              icon: <EngineeringOutlinedIcon />,
-            },
-            {
-              name: "Science & Laboratory Technologys",
-              icon: <ScienceOutlinedIcon />,
-            },
-            { name: "General Studies", icon: <PublicOutlinedIcon /> },
-            { name: "Research & Publications", icon: <BookOutlinedIcon /> },
-            { name: "External Resources", icon: <SourceOutlinedIcon /> },
-          ].map((text, index) => (
-            <ListItem key={text.name} disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
+          }}
+        >
+          {/* sx={{ mt: 17, mb: 4.5 }} */}
+          <DrawerHeader>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              sx={{
+                ...(open && { display: "none" }),
+                color: "primary.light",
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <IconButton
+              sx={{ display: !open && "none", color: "primary.light" }}
+              onClick={handleDrawerClose}
+            >
+              {theme.direction === "rtl" ? (
+                <ChevronRightIcon />
+              ) : (
+                <ChevronLeftIcon />
+              )}
+            </IconButton>
+            <Typography
+              variant="h5"
+              component="h5"
+              fontWeight={500}
+              sx={{
+                display: !open && "none",
+                color: "primary.light",
+              }}
+            >
+              Shelves
+            </Typography>
+          </DrawerHeader>
+          {/* <Divider /> */}
+          <List>
+            {[
+              {
+                name: "All Collections",
+                icon: <CollectionsBookmarkOutlinedIcon />,
+              },
+              { name: "Computer Studies", icon: <ComputerOutlinedIcon /> },
+              { name: "Civil Engineering", icon: <ConstructionOutlinedIcon /> },
+              {
+                name: "Electrical Engineering",
+                icon: <ElectricalServicesOutlinedIcon />,
+              },
+              {
+                name: "Electronics & Telecommunicatio",
+                icon: <WifiCalling3OutlinedIcon />,
+              },
+              {
+                name: "Mechanical Engineering",
+                icon: <EngineeringOutlinedIcon />,
+              },
+              {
+                name: "Science & Laboratory Technologys",
+                icon: <ScienceOutlinedIcon />,
+              },
+              { name: "General Studies", icon: <PublicOutlinedIcon /> },
+              { name: "Research & Publications", icon: <BookOutlinedIcon /> },
+              { name: "External Resources", icon: <SourceOutlinedIcon /> },
+            ].map((text, index) => (
+              <ListItem
+                key={text.name}
+                disablePadding
+                sx={{ display: "block" }}
               >
-                <ListItemIcon
+                <ListItemButton
                   sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
-                    color: "primary.light",
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
                   }}
                 >
-                  {text.icon}
-                </ListItemIcon>
-                <ListItemText
-                  primary={text.name}
-                  sx={{ opacity: open ? 1 : 0, color: "primary.light" }}
-                />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        {/* <Divider />
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                      color: "primary.light",
+                    }}
+                  >
+                    {text.icon}
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={text.name}
+                    sx={{ opacity: open ? 1 : 0, color: "primary.light" }}
+                  />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+          {/* <Divider />
         <List>
           {["All mail", "Trash", "Spam"].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: "block" }}>
@@ -228,11 +234,13 @@ export default function MiniDrawer() {
             </ListItem>
           ))}
         </List> */}
-      </Drawer>
-      <Container component="main" sx={{ flexGrow: 1 }} maxWidth="lg">
-        <Outlet />
-      </Container>
-    </Box>
+        </Drawer>
+        <Container component="main" sx={{ flexGrow: 1 }} maxWidth="lg">
+          <Outlet />
+        </Container>
+      </Box>
+      <Newsletter />
+    </>
   );
 }
 

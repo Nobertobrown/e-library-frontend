@@ -2,17 +2,19 @@ import React from "react";
 import "./App.css";
 import ResponsiveTopAppBar from "./components/AppBar/TopAppBar";
 import ResponsiveMiddleAppBar from "./components/AppBar/MiddleAppBar";
-import MiniDrawer from "./components/Drawer/MiniDrawer";
 import Footer from "./components/Footer/AppFooter";
-import Newsletter from "./components/Newsletter/Newsletter";
+import { Outlet } from "react-router-dom";
+// import MiniDrawer from "./components/Drawer/MiniDrawer";
+// import Newsletter from "./components/Newsletter/Newsletter";
 
 function App() {
   return (
     <>
       <ResponsiveTopAppBar />
       <ResponsiveMiddleAppBar />
-      <MiniDrawer />
-      <Newsletter />
+      <Outlet />
+      {/* <MiniDrawer />
+      <Newsletter /> */}
       <Footer />
     </>
   );
