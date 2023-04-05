@@ -6,14 +6,15 @@ import Index from "./routes/index";
 import SignUpPage from "./routes/Auth/SignUp";
 import MiniDrawer from "./components/Drawer/MiniDrawer";
 import ErrorPage from "./components/ErrorHandler/error-page";
-import Catalogue, { loader as booksLoader } from "./routes/Lib/Catalogue";
-import DetailCard, { loader as detailsLoader } from "./routes/Lib/DetailCard";
+import Catalogue, { loader as booksLoader } from "./routes/User/Catalogue";
+import DetailCard, { loader as detailsLoader } from "./routes/User/DetailCard";
 import theme from "./theme";
 import { ThemeProvider } from "@mui/material";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import LoginPage from "./routes/Auth/Login";
+import UploadPage from "./routes/Admin/Upload";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -72,6 +73,10 @@ const router = createBrowserRouter([
           {
             path: "/login",
             element: <LoginPage />,
+          },
+          {
+            path: "/upload",
+            element: <UploadPage />,
           },
         ],
       },

@@ -4,19 +4,17 @@ import ResponsiveTopAppBar from "./components/AppBar/TopAppBar";
 import ResponsiveMiddleAppBar from "./components/AppBar/MiddleAppBar";
 import Footer from "./components/Footer/AppFooter";
 import { Outlet } from "react-router-dom";
-// import MiniDrawer from "./components/Drawer/MiniDrawer";
-// import Newsletter from "./components/Newsletter/Newsletter";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
 function App() {
   return (
-    <>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
       <ResponsiveTopAppBar />
       <ResponsiveMiddleAppBar />
       <Outlet />
-      {/* <MiniDrawer />
-      <Newsletter /> */}
       <Footer />
-    </>
+    </LocalizationProvider>
   );
 }
 
