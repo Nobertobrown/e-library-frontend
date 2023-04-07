@@ -3,11 +3,11 @@ import {
   Button,
   FormControl,
   InputLabel,
-  Link,
   OutlinedInput,
   Typography,
 } from "@mui/material";
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 export default function SignUpPage() {
   // const [username, setUsername] = useState("");
@@ -15,7 +15,15 @@ export default function SignUpPage() {
   // const [email, setEmail] = useState("");
 
   return (
-    <Box display="flex" gap={8.75}>
+    <Box
+      display="flex"
+      sx={{
+        "& .MuiTypography-root": {
+          fontFamily: "'Raleway', 'Poppins', 'Arial', sans-serif",
+        },
+      }}
+      gap={19.75}
+    >
       <Box>
         <img
           style={{ width: "654px", height: "100%", opacity: "12%" }}
@@ -38,7 +46,13 @@ export default function SignUpPage() {
       >
         <Box display="flex" justifyContent="flex-end">
           <Typography>
-            Already have an account? <Link>Sign In</Link>
+            Already have an account?{" "}
+            <NavLink
+              to="/login"
+              style={{ textDecoration: "none", color: "#163269" }}
+            >
+              Sign In
+            </NavLink>
           </Typography>
         </Box>
         <Typography

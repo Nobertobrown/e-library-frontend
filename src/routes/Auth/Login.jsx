@@ -8,13 +8,14 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 export default function LoginPage() {
   // const [password, setPassword] = useState("");
   // const [email, setEmail] = useState("");
 
   return (
-    <Box display="flex" gap={8.75}>
+    <Box display="flex" gap={19.75}>
       <Box>
         <img
           style={{ width: "654px", height: "100%", opacity: "12%" }}
@@ -33,11 +34,20 @@ export default function LoginPage() {
           pt: 8,
           pb: 6.875,
           my: 10.6875,
+          "& .MuiTypography-root": {
+            fontFamily: "'Raleway', 'Poppins', 'Arial', sans-serif",
+          },
         }}
       >
         <Box display="flex" justifyContent="flex-end">
           <Typography>
-            New user? <Link>Create an account</Link>
+            New user?{" "}
+            <NavLink
+              to="/signup"
+              style={{ textDecoration: "none", color: "#163269" }}
+            >
+              Create an account
+            </NavLink>
           </Typography>
         </Box>
         <Typography
@@ -46,7 +56,7 @@ export default function LoginPage() {
           color="primary.light"
           fontWeight={700}
         >
-          Create Account
+          Sign In
         </Typography>
 
         <FormControl variant="outlined">
@@ -54,10 +64,20 @@ export default function LoginPage() {
           <OutlinedInput id="email" type="email" label="Email Address" />
         </FormControl>
 
-        <FormControl variant="outlined">
-          <InputLabel htmlFor="password">Password</InputLabel>
-          <OutlinedInput id="password" type="password" label="Password" />
-        </FormControl>
+        <Box display="flex" flexDirection="column">
+          <Link
+            color="tertiary.main"
+            variant="body1"
+            marginLeft="auto"
+            alignSelf="flex-end"
+          >
+            Forgot your password?
+          </Link>
+          <FormControl variant="outlined">
+            <InputLabel htmlFor="password">Password</InputLabel>
+            <OutlinedInput id="password" type="password" label="Password" />
+          </FormControl>
+        </Box>
 
         <Button
           variant="contained"
