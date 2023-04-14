@@ -151,7 +151,7 @@ function DetailCard() {
               component="span"
               color="tertiary.main"
             >
-              {book.rating.number} Ratings
+              {book.rating.rates} Ratings
             </Typography>
           </Box>
           <Divider sx={{ mb: 2.5 }} />

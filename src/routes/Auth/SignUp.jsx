@@ -6,13 +6,76 @@ import {
   OutlinedInput,
   Typography,
 } from "@mui/material";
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState } from "react";
+import { NavLink, Form, redirect } from "react-router-dom";
+import { required, length, email } from "../../util/validator";
+import axios from "axios";
+
+export async function action({ request }) {
+  const formData = await request.formData();
+  const body = Object.fromEntries(formData);
+  axios
+    .put("http://localhost:8080/signup", body)
+    .then((res) => {
+      if (res.status === 422) {
+        throw new Error(
+          "Validation failed. Make sure the email address isn't used yet!"
+        );
+      }
+      if (res.status !== 200 && res.status !== 201) {
+        console.log("Error!");
+        throw new Error("Creating a user failed!");
+      }
+      console.log(res.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  return redirect("/login");
+}
 
 export default function SignUpPage() {
-  // const [username, setUsername] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [email, setEmail] = useState("");
+  const [userData, setUserData] = useState({
+    username: {
+      value: "",
+      valid: false,
+      validators: [required],
+    },
+    email: {
+      value: "",
+      valid: false,
+      validators: [required, email],
+    },
+    password: {
+      value: "",
+      valid: false,
+      validators: [required, length({ min: 6 })],
+    },
+    formIsValid: false,
+  });
+
+  function inputChangeHandler(event) {
+    const { name, value } = event.target;
+    setUserData((prevState) => {
+      let isValid = true;
+      for (const validator of prevState[name].validators) {
+        isValid = isValid && validator(value);
+      }
+      const updatedForm = {
+        ...prevState,
+        [name]: {
+          ...prevState[name],
+          value: value,
+          valid: isValid, //If its true it means the input value is valid
+        },
+      };
+      let formIsValid = true;
+      for (const inputName in updatedForm) {
+        formIsValid = formIsValid && updatedForm[inputName].valid;
+      }
+      return updatedForm;
+    });
+  }
 
   return (
     <Box
@@ -63,41 +126,72 @@ export default function SignUpPage() {
         >
           Create Account
         </Typography>
-        <FormControl variant="outlined">
-          <InputLabel htmlFor="username">Username</InputLabel>
-          <OutlinedInput id="username" type="text" label="Username" />
-        </FormControl>
-
-        <FormControl variant="outlined">
-          <InputLabel htmlFor="email">Email Address</InputLabel>
-          <OutlinedInput id="email" type="email" label="Email Address" />
-        </FormControl>
-
-        <FormControl variant="outlined">
-          <InputLabel htmlFor="password">Password</InputLabel>
-          <OutlinedInput id="password" type="password" label="Password" />
-        </FormControl>
-
-        <FormControl variant="outlined">
-          <InputLabel htmlFor="confirmPassword">Confirm Password</InputLabel>
-          <OutlinedInput
-            id="confirmPassword"
-            type="password"
-            label="Confirm Password"
-          />
-        </FormControl>
-
-        <Button
-          variant="contained"
-          size="large"
-          sx={{
-            borderRadius: "2px",
-            backgroundColor: "secondary.main",
-          }}
-          disableElevation
+        <Form
+          style={{ display: "flex", flexFlow: "column", gap: "30px" }}
+          method="put"
         >
-          Create Account
-        </Button>
+          <FormControl variant="outlined">
+            <InputLabel htmlFor="username">Username</InputLabel>
+            <OutlinedInput
+              error={!userData.username.valid}
+              id="username"
+              name="username"
+              type="text"
+              label="Username"
+              value={userData.username.value}
+              onChange={inputChangeHandler}
+            />
+          </FormControl>
+
+          <FormControl variant="outlined">
+            <InputLabel htmlFor="email">Email Address</InputLabel>
+            <OutlinedInput
+              error={!userData.email.valid}
+              id="email"
+              name="email"
+              type="email"
+              label="Email Address"
+              value={userData.email.value}
+              onChange={inputChangeHandler}
+            />
+          </FormControl>
+
+          <FormControl variant="outlined">
+            <InputLabel htmlFor="password">Password</InputLabel>
+            <OutlinedInput
+              error={!userData.password.valid}
+              id="password"
+              name="password"
+              type="password"
+              label="Password"
+              value={userData.password.value}
+              onChange={inputChangeHandler}
+            />
+          </FormControl>
+
+          <FormControl variant="outlined">
+            <InputLabel htmlFor="confirmPassword">Confirm Password</InputLabel>
+            <OutlinedInput
+              id="confirmPassword"
+              name="confirmPassword"
+              type="password"
+              label="Confirm Password"
+            />
+          </FormControl>
+
+          <Button
+            variant="contained"
+            size="large"
+            type="submit"
+            sx={{
+              borderRadius: "2px",
+              backgroundColor: "secondary.main",
+            }}
+            disableElevation
+          >
+            Create Account
+          </Button>
+        </Form>
       </Box>
     </Box>
   );

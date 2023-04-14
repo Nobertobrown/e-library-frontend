@@ -8,6 +8,7 @@ import MiniDrawer from "./components/Drawer/MiniDrawer";
 import ErrorPage from "./components/ErrorHandler/error-page";
 import Catalogue, { loader as booksLoader } from "./routes/User/Catalogue";
 import DetailCard, { loader as detailsLoader } from "./routes/User/DetailCard";
+import { action as signUpAction } from "./routes/Auth/SignUp";
 import theme from "./theme";
 import { ThemeProvider } from "@mui/material";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -69,6 +70,7 @@ const router = createBrowserRouter([
           {
             path: "/signup",
             element: <SignUpPage />,
+            action: signUpAction,
           },
           {
             path: "/login",
