@@ -5,25 +5,33 @@ import Book from "../../components/Book/Book";
 import { useQuery } from "react-query";
 import axios from "axios";
 import SearchBar from "../../components/SearchBar/SearchBar";
+import { useLoaderData } from "react-router-dom";
 
-const booksQuery = (url) => ({
-  queryKey: "getBooks",
-  queryFn: async () => {
-    const data = await axios.get(url);
-    return data;
-  },
-});
-let url = "http://localhost:8080/catalogue/books";
-const query = booksQuery(url);
+const url = "http://localhost:8080/catalogue/books";
 
 export const loader = (queryClient) => async () => {
-  return (
-    queryClient.getQueryData(query.queryKey) ??
-    (await queryClient.fetchQuery(query))
-  );
+  const loginData = queryClient.getQueryData("loginData");
+  const userId = loginData.userId;
+  const token = loginData.token;
+  function booksQuery(url) {
+    return {
+      queryKey: "getBooks",
+      queryFn: async () => {
+        const data = await axios.get(url, {
+          headers: { Authorization: "Bearer " + token },
+        });
+        return data;
+      },
+    };
+  }
+  let query = booksQuery(url);
+  queryClient.getQueryData(query.queryKey) ??
+    (await queryClient.fetchQuery(query));
+  return { userId, token, query };
 };
 
 export default function Catalogue() {
+  const { query } = useLoaderData();
   const { data } = useQuery(query);
   const books = data.data["books"];
 

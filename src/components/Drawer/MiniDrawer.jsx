@@ -259,6 +259,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
 import Newsletter from "../Newsletter/Newsletter";
+import Footer from "../Footer/AppFooter";
 
 import CollectionsBookmarkOutlinedIcon from "@mui/icons-material/CollectionsBookmarkOutlined";
 import ComputerOutlinedIcon from "@mui/icons-material/ComputerOutlined";
@@ -429,6 +430,7 @@ function MiniDrawer() {
         </Box>
       </Box>
       <Newsletter />
+      <Footer />
     </>
   );
 }

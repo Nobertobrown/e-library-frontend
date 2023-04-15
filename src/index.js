@@ -9,6 +9,7 @@ import ErrorPage from "./components/ErrorHandler/error-page";
 import Catalogue, { loader as booksLoader } from "./routes/User/Catalogue";
 import DetailCard, { loader as detailsLoader } from "./routes/User/DetailCard";
 import { action as signUpAction } from "./routes/Auth/SignUp";
+import { action as loginAction } from "./routes/Auth/Login";
 import theme from "./theme";
 import { ThemeProvider } from "@mui/material";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -20,10 +21,11 @@ import UploadPage from "./routes/Admin/Upload";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000,
+      staleTime: Infinity,
     },
   },
 });
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 const router = createBrowserRouter([
@@ -75,6 +77,7 @@ const router = createBrowserRouter([
           {
             path: "/login",
             element: <LoginPage />,
+            action: loginAction(queryClient),
           },
           {
             path: "/upload",

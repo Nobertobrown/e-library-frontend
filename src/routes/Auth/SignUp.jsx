@@ -14,23 +14,34 @@ import axios from "axios";
 export async function action({ request }) {
   const formData = await request.formData();
   const body = Object.fromEntries(formData);
-  axios
-    .put("http://localhost:8080/signup", body)
-    .then((res) => {
-      if (res.status === 422) {
-        throw new Error(
-          "Validation failed. Make sure the email address isn't used yet!"
-        );
-      }
-      if (res.status !== 200 && res.status !== 201) {
-        console.log("Error!");
-        throw new Error("Creating a user failed!");
-      }
-      console.log(res.data);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  // axios
+  //   .put("http://localhost:8080/signup", body)
+  //   .then((res) => {
+  //     if (res.status === 422) {
+  //       throw new Error(
+  //         "Validation failed. Make sure the email address isn't used yet!"
+  //       );
+  //     }
+  //     if (res.status !== 200 && res.status !== 201) {
+  //       console.log("Error!");
+  //       throw new Error("Creating a user failed!");
+  //     }
+  //     console.log(res.data);
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   });
+  const result = await axios.put("http://localhost:8080/signup", body);
+  if (result.status === 422) {
+    throw new Error(
+      "Validation failed. Make sure the email address isn't used yet!"
+    );
+  }
+  if (result.status !== 200 && result.status !== 201) {
+    console.log("Error!");
+    throw new Error("Creating a user failed!");
+  }
+  console.log(result.data);
   return redirect("/login");
 }
 
@@ -39,16 +50,19 @@ export default function SignUpPage() {
     username: {
       value: "",
       valid: false,
+      touched: false,
       validators: [required],
     },
     email: {
       value: "",
       valid: false,
+      touched: false,
       validators: [required, email],
     },
     password: {
       value: "",
       valid: false,
+      touched: false,
       validators: [required, length({ min: 6 })],
     },
     formIsValid: false,
@@ -57,6 +71,7 @@ export default function SignUpPage() {
   function inputChangeHandler(event) {
     const { name, value } = event.target;
     setUserData((prevState) => {
+      userData[name].touched = true;
       let isValid = true;
       for (const validator of prevState[name].validators) {
         isValid = isValid && validator(value);
@@ -69,10 +84,11 @@ export default function SignUpPage() {
           valid: isValid, //If its true it means the input value is valid
         },
       };
-      let formIsValid = true;
+      let IsValid = true;
       for (const inputName in updatedForm) {
-        formIsValid = formIsValid && updatedForm[inputName].valid;
+        IsValid = IsValid && updatedForm[inputName].valid;
       }
+      userData.formIsValid = IsValid;
       return updatedForm;
     });
   }
@@ -133,7 +149,7 @@ export default function SignUpPage() {
           <FormControl variant="outlined">
             <InputLabel htmlFor="username">Username</InputLabel>
             <OutlinedInput
-              error={!userData.username.valid}
+              error={userData.username.touched && !userData.username.valid}
               id="username"
               name="username"
               type="text"
@@ -146,7 +162,7 @@ export default function SignUpPage() {
           <FormControl variant="outlined">
             <InputLabel htmlFor="email">Email Address</InputLabel>
             <OutlinedInput
-              error={!userData.email.valid}
+              error={userData.email.touched && !userData.email.valid}
               id="email"
               name="email"
               type="email"
@@ -159,7 +175,7 @@ export default function SignUpPage() {
           <FormControl variant="outlined">
             <InputLabel htmlFor="password">Password</InputLabel>
             <OutlinedInput
-              error={!userData.password.valid}
+              error={userData.password.touched && !userData.password.valid}
               id="password"
               name="password"
               type="password"
