@@ -42,7 +42,7 @@ export async function action({ request }) {
     throw new Error("Creating a user failed!");
   }
   console.log(result.data);
-  return redirect("/login");
+  return redirect("/");
 }
 
 export default function SignUpPage() {
@@ -127,7 +127,7 @@ export default function SignUpPage() {
           <Typography>
             Already have an account?{" "}
             <NavLink
-              to="/login"
+              to="/"
               style={{ textDecoration: "none", color: "#163269" }}
             >
               Sign In

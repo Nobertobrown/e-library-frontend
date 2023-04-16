@@ -5,35 +5,37 @@ import Book from "../../components/Book/Book";
 import { useQuery } from "react-query";
 import axios from "axios";
 import SearchBar from "../../components/SearchBar/SearchBar";
-import { useLoaderData } from "react-router-dom";
+import Index from "..";
+import localforage from "localforage";
 
-const url = "http://localhost:8080/catalogue/books";
+const booksQuery = (url) => ({
+  queryKey: "getBooks",
+  queryFn: async () => {
+    const loginData = await localforage.getItem("loginData");
+    const data = await axios.get(url, {
+      headers: { Authorization: "Bearer " + loginData.token },
+    });
+    return data;
+  },
+});
+let url = "http://localhost:8080/catalogue/books";
+
+const query = booksQuery(url);
 
 export const loader = (queryClient) => async () => {
-  const loginData = queryClient.getQueryData("loginData");
-  const userId = loginData.userId;
-  const token = loginData.token;
-  function booksQuery(url) {
-    return {
-      queryKey: "getBooks",
-      queryFn: async () => {
-        const data = await axios.get(url, {
-          headers: { Authorization: "Bearer " + token },
-        });
-        return data;
-      },
-    };
-  }
-  let query = booksQuery(url);
-  queryClient.getQueryData(query.queryKey) ??
-    (await queryClient.fetchQuery(query));
-  return { userId, token, query };
+  return (
+    queryClient.getQueryData(query.queryKey) ??
+    (await queryClient.fetchQuery(query))
+  );
 };
 
 export default function Catalogue() {
-  const { query } = useLoaderData();
   const { data } = useQuery(query);
   const books = data.data["books"];
+
+  if (books.length === 0) {
+    return <Index />;
+  }
 
   return (
     <>

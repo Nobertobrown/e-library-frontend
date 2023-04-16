@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
-import Index from "./routes/index";
 import SignUpPage from "./routes/Auth/SignUp";
 import MiniDrawer from "./components/Drawer/MiniDrawer";
 import ErrorPage from "./components/ErrorHandler/error-page";
@@ -21,7 +20,7 @@ import UploadPage from "./routes/Admin/Upload";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: Infinity,
+      staleTime: 1000,
     },
   },
 });
@@ -40,19 +39,25 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
         children: [
           {
-            index: true,
-            element: <Index />,
+            path: "/signup",
+            element: <SignUpPage />,
+            action: signUpAction,
           },
           {
-            path: "catalogue",
+            index: true,
+            element: <LoginPage />,
+            action: loginAction,
+          },
+          {
+            path: "/upload",
+            element: <UploadPage />,
+          },
+          {
+            path: "catalogue/books",
             element: <MiniDrawer />,
             children: [
               {
                 index: true,
-                element: <Index />,
-              },
-              {
-                path: "books",
                 element: <Catalogue />,
                 loader: booksLoader(queryClient),
                 // action: contactAction,
@@ -68,20 +73,6 @@ const router = createBrowserRouter([
               //   action: destroyAction,
               // },
             ],
-          },
-          {
-            path: "/signup",
-            element: <SignUpPage />,
-            action: signUpAction,
-          },
-          {
-            path: "/login",
-            element: <LoginPage />,
-            action: loginAction(queryClient),
-          },
-          {
-            path: "/upload",
-            element: <UploadPage />,
           },
         ],
       },
@@ -99,3 +90,6 @@ root.render(
     </QueryClientProvider>
   </React.StrictMode>
 );
+
+//TODO
+//Change token storage to localStorage

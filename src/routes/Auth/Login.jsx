@@ -11,31 +11,27 @@ import React, { useState } from "react";
 import { NavLink, Form, redirect } from "react-router-dom";
 import { required, length, email } from "../../util/validator";
 import axios from "axios";
+import localforage from "localforage";
 
-const postLoginData = (data) => ({
-  queryKey: "loginData",
-  queryFn: async () => {
-    const result = await axios.post("http://localhost:8080/login", data);
-    if (result.status === 422) {
-      throw new Error("Validation failed.");
-    }
-    if (result.status !== 200 && result.status !== 201) {
-      console.log("Error!");
-      throw new Error("Could not authenticate you!");
-    }
-    return result.data;
-  },
-});
+const postLoginData = async (data) => {
+  const result = await axios.post("http://localhost:8080/login", data);
+  if (result.status === 422) {
+    throw new Error("Validation failed.");
+  }
+  if (result.status !== 200 && result.status !== 201) {
+    console.log("Error!");
+    throw new Error("Could not authenticate you!");
+  }
+  return result.data;
+};
 
-export const action =
-  (queryClient) =>
-  async ({ request }) => {
-    const formData = await request.formData();
-    const body = Object.fromEntries(formData);
-    const query = postLoginData(body);
-    await queryClient.fetchQuery(query);
-    return redirect("/catalogue/books");
-  };
+export const action = async ({ request }) => {
+  const formData = await request.formData();
+  const body = Object.fromEntries(formData);
+  const query = postLoginData(body);
+  await localforage.setItem("loginData", query);
+  return redirect("/catalogue/books");
+};
 
 export default function LoginPage() {
   const [userData, setUserData] = useState({
