@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import {
   Box,
   Typography,
@@ -12,11 +12,51 @@ import {
   Stack,
   Autocomplete,
   TextField,
+  Chip,
 } from "@mui/material";
 import ImageOutlinedIcon from "@mui/icons-material/ImageOutlined";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { tags, languages, fields } from "../../util/data";
 
 export default function UploadPage() {
+  const [details, setDetails] = useState({
+    isbn: "",
+    rating: { value: null, rates: 1 },
+    title: "",
+    author: "",
+    publisher: "",
+    description: "",
+    tags: { value: [], inputValue: "" },
+    fields: { value: [], inputValue: "" },
+    languages: { value: [], inputValue: "" },
+    publicationDate: null,
+  });
+
+  const field = useRef();
+  const tag = useRef();
+  const language = useRef();
+
+  function inputChangeHandler(event) {
+    const { name, value } = event.target;
+    console.log(event.target)
+    setDetails((prevState) => {
+      return {
+        ...prevState,
+        [name]: value,
+      };
+    });
+  }
+
+  function autoCompleteInputValueHandler(event, newValue) {
+    const { name } = event.target;
+    setDetails((prevState) => {
+      return {
+        ...prevState,
+        [name]: { ...prevState[name], inputValue: newValue },
+      };
+    });
+  }
+
   return (
     <Box display="flex" marginX={22.75} marginY={7.625} flexDirection="column">
       <Typography
@@ -52,18 +92,38 @@ export default function UploadPage() {
           <Box display="flex" flexDirection="column">
             <FormControl variant="outlined">
               <InputLabel htmlFor="isbn">ISBN</InputLabel>
-              <OutlinedInput id="isbn" type="text" label="ISBN" />
+              <OutlinedInput
+                id="isbn"
+                type="text"
+                label="ISBN"
+                name="isbn"
+                value={details.isbn}
+                onChange={inputChangeHandler}
+              />
               <FormHelperText id="isbn-helper">Supporting text</FormHelperText>
             </FormControl>
 
             <Box display="flex" gap={1.5} mb={6.5} mt={1.25}>
-              <Rating name="read-only" value={5} precision={0.5} readOnly />
+              <Rating
+                name="rating"
+                value={details.rating.value}
+                onChange={(event, newValue) => {
+                  const { name } = event.target;
+                  setDetails((prevState) => {
+                    return {
+                      ...prevState,
+                      [name]: { ...prevState[name], value: newValue },
+                    };
+                  });
+                }}
+                precision={0.5}
+              />
               <Typography
                 variant="body1"
                 component="span"
                 color="tertiary.main"
               >
-                25,000 Ratings
+                {details.rating.rates} Ratings
               </Typography>
             </Box>
 
@@ -72,13 +132,16 @@ export default function UploadPage() {
                 variant="contained"
                 size="large"
                 sx={{ borderRadius: "2px", backgroundColor: "secondary.main" }}
+                component="label"
                 disableElevation
               >
                 Select Book
+                <input hidden accept="image/*" type="file" />
               </Button>
 
               <Button
                 variant="outlined"
+                type="reset"
                 size="large"
                 sx={{
                   borderRadius: "2px",
@@ -96,14 +159,28 @@ export default function UploadPage() {
         <Box display="flex" paddingX={14.875} gap={2.5} flexDirection="column">
           <FormControl variant="outlined">
             <InputLabel htmlFor="title">Book Title</InputLabel>
-            <OutlinedInput id="title" type="text" label="Book Title" />
+            <OutlinedInput
+              id="title"
+              type="text"
+              label="Book Title"
+              name="title"
+              value={details.title}
+              onChange={inputChangeHandler}
+            />
             <FormHelperText id="title-helper">Supporting text</FormHelperText>
           </FormControl>
 
           <Stack direction="row" spacing={7.875}>
             <FormControl variant="outlined" sx={{ flex: "1 0" }}>
               <InputLabel htmlFor="author">Author</InputLabel>
-              <OutlinedInput id="author" type="text" label="Author" />
+              <OutlinedInput
+                id="author"
+                type="text"
+                label="Author"
+                name="author"
+                value={details.author}
+                onChange={inputChangeHandler}
+              />
               <FormHelperText id="author-helper">
                 Supporting text
               </FormHelperText>
@@ -111,7 +188,14 @@ export default function UploadPage() {
 
             <FormControl variant="outlined" sx={{ flex: "1 0" }}>
               <InputLabel htmlFor="publisher">Publisher</InputLabel>
-              <OutlinedInput id="publisher" type="text" label="Publisher" />
+              <OutlinedInput
+                id="publisher"
+                type="text"
+                label="Publisher"
+                name="publisher"
+                value={details.publisher}
+                onChange={inputChangeHandler}
+              />
               <FormHelperText id="publisher-helper">
                 Supporting text
               </FormHelperText>
@@ -123,9 +207,12 @@ export default function UploadPage() {
             <OutlinedInput
               id="description"
               type="text"
+              label="Description"
+              name="description"
+              value={details.description}
+              onChange={inputChangeHandler}
               rows={6}
               multiline
-              label="Description"
             />
             <FormHelperText id="description-helper">
               Supporting text
@@ -136,13 +223,44 @@ export default function UploadPage() {
             <Autocomplete
               sx={{ flex: "1 0" }}
               multiple
+              freeSolo
               id="tags"
-              options={topFilms}
-              getOptionLabel={(option) => option.title}
-              defaultValue={[topFilms[13]]}
+              name="tags"
+              ref={tag}
+              options={tags}
+              getOptionLabel={(option) => option}
               filterSelectedOptions
+              value={details.tags.value}
+              onChange={(_, newValue) => {
+                const name = tag.current.getAttribute("name");
+                setDetails((prevState) => {
+                  return {
+                    ...prevState,
+                    [name]: {
+                      ...prevState[name],
+                      value: newValue,
+                    },
+                  };
+                });
+              }}
+              inputValue={details.tags.inputValue}
+              onInputChange={autoCompleteInputValueHandler}
+              renderTags={(value, getTagProps) =>
+                value.map((option, index) => (
+                  <Chip
+                    variant="outlined"
+                    label={option}
+                    {...getTagProps({ index })}
+                  />
+                ))
+              }
               renderInput={(params) => (
-                <TextField {...params} label="Tags" placeholder="Tags" />
+                <TextField
+                  {...params}
+                  label="Tags"
+                  name="tags"
+                  placeholder="Tags"
+                />
               )}
             />
 
@@ -150,12 +268,33 @@ export default function UploadPage() {
               sx={{ flex: "1 0" }}
               multiple
               id="fields"
-              options={topFilms}
-              getOptionLabel={(option) => option.title}
-              defaultValue={[topFilms[13]]}
+              name="fields"
+              ref={field}
+              options={fields}
+              getOptionLabel={(option) => option}
               filterSelectedOptions
+              value={details.fields.value}
+              onChange={(_, newValue) => {
+                const name = field.current.getAttribute("name");
+                setDetails((prevState) => {
+                  return {
+                    ...prevState,
+                    [name]: {
+                      ...prevState[name],
+                      value: newValue,
+                    },
+                  };
+                });
+              }}
+              inputValue={details.fields.inputValue}
+              onInputChange={autoCompleteInputValueHandler}
               renderInput={(params) => (
-                <TextField {...params} label="Fields" placeholder="Fields" />
+                <TextField
+                  {...params}
+                  label="Fields"
+                  name="fields"
+                  placeholder="Fields"
+                />
               )}
             />
           </Stack>
@@ -164,15 +303,42 @@ export default function UploadPage() {
             <Autocomplete
               sx={{ flex: "1 0" }}
               multiple
-              id="language"
-              options={topFilms}
-              getOptionLabel={(option) => option.title}
-              defaultValue={[topFilms[13]]}
+              freeSolo
+              id="languages"
+              name="languages"
+              ref={language}
+              options={languages}
+              getOptionLabel={(option) => option}
               filterSelectedOptions
+              value={details.languages.value}
+              onChange={(_, newValue) => {
+                const name = language.current.getAttribute("name");
+                setDetails((prevState) => {
+                  return {
+                    ...prevState,
+                    [name]: {
+                      ...prevState[name],
+                      value: newValue,
+                    },
+                  };
+                });
+              }}
+              inputValue={details.languages.inputValue}
+              onInputChange={autoCompleteInputValueHandler}
+              renderTags={(value, getTagProps) =>
+                value.map((option, index) => (
+                  <Chip
+                    variant="outlined"
+                    label={option}
+                    {...getTagProps({ index })}
+                  />
+                ))
+              }
               renderInput={(params) => (
                 <TextField
                   {...params}
                   label="Languages"
+                  name="languages"
                   placeholder="Languages"
                 />
               )}
@@ -181,9 +347,17 @@ export default function UploadPage() {
             <DatePicker
               sx={{ flex: "1 0" }}
               label="Publication Date"
+              value={details.publicationDate}
+              onChange={(newValue) => setDetails((prevState) => {
+                return {
+                  ...prevState,
+                  publicationDate: newValue,
+                };
+              })}
               slotProps={{
                 textField: {
                   helperText: "MM / DD / YYYY",
+                  name: "publishedAt",
                 },
               }}
             />
@@ -217,52 +391,6 @@ export default function UploadPage() {
   );
 }
 
-const topFilms = [
-  { title: "The Shawshank Redemption", year: 1994 },
-  { title: "The Godfather", year: 1972 },
-  { title: "The Godfather: Part II", year: 1974 },
-  { title: "The Dark Knight", year: 2008 },
-  { title: "12 Angry Men", year: 1957 },
-  { title: "Schindler's List", year: 1993 },
-  { title: "Pulp Fiction", year: 1994 },
-  {
-    title: "The Lord of the Rings: The Return of the King",
-    year: 2003,
-  },
-  { title: "The Good, the Bad and the Ugly", year: 1966 },
-  { title: "Fight Club", year: 1999 },
-  {
-    title: "The Lord of the Rings: The Fellowship of the Ring",
-    year: 2001,
-  },
-  {
-    title: "Star Wars: Episode V - The Empire Strikes Back",
-    year: 1980,
-  },
-  { title: "Forrest Gump", year: 1994 },
-  { title: "Inception", year: 2010 },
-  {
-    title: "The Lord of the Rings: The Two Towers",
-    year: 2002,
-  },
-  { title: "One Flew Over the Cuckoo's Nest", year: 1975 },
-  { title: "Goodfellas", year: 1990 },
-  { title: "The Matrix", year: 1999 },
-  { title: "Seven Samurai", year: 1954 },
-  {
-    title: "Star Wars: Episode IV - A New Hope",
-    year: 1977,
-  },
-  { title: "City of God", year: 2002 },
-  { title: "Se7en", year: 1995 },
-  { title: "The Silence of the Lambs", year: 1991 },
-  { title: "It's a Wonderful Life", year: 1946 },
-  { title: "Life Is Beautiful", year: 1997 },
-  { title: "The Usual Suspects", year: 1995 },
-  { title: "Léon: The Professional", year: 1994 },
-  { title: "Spirited Away", year: 2001 },
-  { title: "Saving Private Ryan", year: 1998 },
-  { title: "Once Upon a Time in the West", year: 1968 },
-  { title: "American History X", year: 1998 },
-  { title: "Interstellar", year: 2014 },
-];
+// TODO
+// Make the autocomplete and calender components controlled
+// Send data to the backend
