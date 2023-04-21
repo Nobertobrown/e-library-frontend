@@ -24,11 +24,15 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import ReviewsCard from "../../components/ReviewsCard/ReviewsCard";
+import localforage from "localforage";
 
 const detailsQuery = (url) => ({
   queryKey: ["getDetails"],
   queryFn: async () => {
-    const data = await axios.get(url);
+    const loginData = await localforage.getItem("loginData");
+    const data = await axios.get(url, {
+      headers: { Authorization: "Bearer " + loginData.token },
+    });
     const details = data.data["book"];
     return details;
   },
@@ -36,14 +40,14 @@ const detailsQuery = (url) => ({
 
 export const loader =
   (queryClient) =>
-  async ({ params }) => {
-    let url = `http://localhost:8080/catalogue/books/${params.bookId}`;
-    const query = detailsQuery(url);
-    return (
-      queryClient.getQueryData(query.queryKey) ??
-      (await queryClient.fetchQuery(query))
-    );
-  };
+    async ({ params }) => {
+      let url = `http://localhost:8080/catalogue/books/${params.bookId}`;
+      const query = detailsQuery(url);
+      return (
+        queryClient.getQueryData(query.queryKey) ??
+        (await queryClient.fetchQuery(query))
+      );
+    };
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.secondary.main,
@@ -91,7 +95,7 @@ function DetailCard() {
             }}
             disableElevation
             fullWidth
-            // endIcon={<LocalLibraryOutlinedIcon />}
+          // endIcon={<LocalLibraryOutlinedIcon />}
           >
             Rate Book
           </Button>
@@ -106,7 +110,7 @@ function DetailCard() {
             }}
             disableElevation
             fullWidth
-            // endIcon={<FileDownloadOutlinedIcon />}
+          // endIcon={<FileDownloadOutlinedIcon />}
           >
             Leave Review
           </Button>

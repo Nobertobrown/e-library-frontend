@@ -63,7 +63,7 @@ const router = createBrowserRouter([
                 // action: contactAction,
               },
               {
-                path: "books/:bookId",
+                path: ":bookId",
                 element: <DetailCard />,
                 loader: detailsLoader(queryClient),
                 // action: editAction,
