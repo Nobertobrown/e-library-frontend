@@ -14,23 +14,6 @@ import axios from "axios";
 export async function action({ request }) {
   const formData = await request.formData();
   const body = Object.fromEntries(formData);
-  // axios
-  //   .put("http://localhost:8080/signup", body)
-  //   .then((res) => {
-  //     if (res.status === 422) {
-  //       throw new Error(
-  //         "Validation failed. Make sure the email address isn't used yet!"
-  //       );
-  //     }
-  //     if (res.status !== 200 && res.status !== 201) {
-  //       console.log("Error!");
-  //       throw new Error("Creating a user failed!");
-  //     }
-  //     console.log(res.data);
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //   });
   const result = await axios.put("http://localhost:8080/signup", body);
   if (result.status === 422) {
     throw new Error(

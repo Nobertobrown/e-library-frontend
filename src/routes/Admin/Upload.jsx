@@ -17,6 +17,24 @@ import {
 import ImageOutlinedIcon from "@mui/icons-material/ImageOutlined";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { tags, languages, fields } from "../../util/data";
+import { Form } from "react-router-dom";
+import axios from "axios";
+import localforage from "localforage";
+
+const postBookData = async (data) => {
+  const loginData = await localforage.getItem("loginData");
+  const result = await axios.put("http://localhost:8080/catalogue/book", data, {
+    headers: { Authorization: "Bearer " + loginData.token },
+  });
+  if (result.status === 422) {
+    throw new Error("Uploading failed!");
+  }
+  if (result.status !== 200 && result.status !== 201) {
+    console.log("Error!");
+    throw new Error("Could not upload book!");
+  }
+  return result.data;
+};
 
 export default function UploadPage() {
   const [details, setDetails] = useState({
@@ -36,9 +54,14 @@ export default function UploadPage() {
   const tag = useRef();
   const language = useRef();
 
+  async function handleSubmit(event) {
+    event.preventDefault();
+    let data = { ...details, publicationDate: details.publicationDate.$d }
+    postBookData(data);
+  }
+
   function inputChangeHandler(event) {
     const { name, value } = event.target;
-    console.log(event.target)
     setDetails((prevState) => {
       return {
         ...prevState,
@@ -68,11 +91,10 @@ export default function UploadPage() {
         Upload Book
       </Typography>
 
-      <Box
-        display="flex"
-        flexDirection="column"
-        marginTop={2.5}
-        sx={{ backgroundColor: "background.main2" }}
+      <Form
+        onSubmit={handleSubmit}
+        method="put"
+        style={{ backgroundColor: "#F6F6F6", display: "flex", flexDirection: "column", marginTop: "20px" }}
       >
         <Box display="flex" marginTop={7.5} marginX={15.5} gap={13.375}>
           <Box
@@ -136,7 +158,7 @@ export default function UploadPage() {
                 disableElevation
               >
                 Select Book
-                <input hidden accept="image/*" type="file" />
+                <input hidden accept="image/*" type="file" name="book" />
               </Button>
 
               <Button
@@ -367,6 +389,7 @@ export default function UploadPage() {
           <Button
             variant="contained"
             size="large"
+            type="submit"
             sx={{ borderRadius: "2px", backgroundColor: "secondary.main" }}
             disableElevation
           >
@@ -386,11 +409,10 @@ export default function UploadPage() {
             Discard
           </Button>
         </Box>
-      </Box>
+      </Form>
     </Box>
   );
 }
 
 // TODO
-// Make the autocomplete and calender components controlled
 // Send data to the backend
