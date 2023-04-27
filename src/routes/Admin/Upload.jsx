@@ -23,7 +23,7 @@ import localforage from "localforage";
 
 const postBookData = async (data) => {
   const loginData = await localforage.getItem("loginData");
-  const result = await axios.put("http://localhost:8080/catalogue/book", data, {
+  const result = await axios.putForm("http://localhost:8080/book", data, {
     headers: { Authorization: "Bearer " + loginData.token },
   });
   if (result.status === 422) {
@@ -56,7 +56,11 @@ export default function UploadPage() {
 
   async function handleSubmit(event) {
     event.preventDefault();
-    let data = { ...details, publicationDate: details.publicationDate.$d }
+    let data = {
+      ...details,
+      publicationDate: details.publicationDate.$d,
+      book: event.target.book.files[0]
+    }
     postBookData(data);
   }
 
@@ -158,7 +162,7 @@ export default function UploadPage() {
                 disableElevation
               >
                 Select Book
-                <input hidden accept="image/*" type="file" name="book" />
+                <input hidden accept=".pdf,.docx,.doc" type="file" name="book" id="book" />
               </Button>
 
               <Button
@@ -415,4 +419,4 @@ export default function UploadPage() {
 }
 
 // TODO
-// Send data to the backend
+// Add file upload logic

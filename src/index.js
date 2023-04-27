@@ -91,6 +91,3 @@ root.render(
     </QueryClientProvider>
   </React.StrictMode>
 );
-
-//TODO
-//Change token storage to localStorage
