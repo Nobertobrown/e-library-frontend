@@ -16,6 +16,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import LoginPage from "./routes/Auth/Login";
 import UploadPage from "./routes/Admin/Upload";
+import PdfViewer from "./components/PdfViewer/PdfViewer";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -75,6 +76,10 @@ const router = createBrowserRouter([
               // },
             ],
           },
+          {
+            path: ":bookId/read",
+            element: <PdfViewer />
+          }
         ],
       },
     ],
@@ -91,3 +96,5 @@ root.render(
     </QueryClientProvider>
   </React.StrictMode>
 );
+
+//TODO: Remember to remove some dependencies which are not used, refer to package.json

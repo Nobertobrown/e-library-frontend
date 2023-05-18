@@ -291,6 +291,8 @@ function MiniDrawer() {
         fontWeight={500}
         sx={{
           color: "primary.light",
+          marginY: "0.875rem",
+          marginLeft: "1.25rem"
         }}
       >
         Shelves

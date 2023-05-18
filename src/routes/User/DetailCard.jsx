@@ -21,7 +21,7 @@ import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined
 import { styled } from "@mui/material/styles";
 import { useQuery } from "react-query";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import ReviewsCard from "../../components/ReviewsCard/ReviewsCard";
 import localforage from "localforage";
@@ -59,6 +59,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 function DetailCard() {
   const params = useParams();
+  const navigate = useNavigate();
   const { data } = useQuery(
     detailsQuery(`http://localhost:8080/catalogue/books/${params.bookId}`)
   );
@@ -95,7 +96,6 @@ function DetailCard() {
             }}
             disableElevation
             fullWidth
-          // endIcon={<LocalLibraryOutlinedIcon />}
           >
             Rate Book
           </Button>
@@ -110,7 +110,6 @@ function DetailCard() {
             }}
             disableElevation
             fullWidth
-          // endIcon={<FileDownloadOutlinedIcon />}
           >
             Leave Review
           </Button>
@@ -164,6 +163,7 @@ function DetailCard() {
             <Link sx={{ color: "secondary.main" }}>See all formats</Link>
             <Box display="flex" my={2.625} gap={2.875}>
               <Button
+                onClick={() => { navigate("/1/read") }}
                 variant="contained"
                 size="large"
                 sx={{ borderRadius: "2px", backgroundColor: "secondary.main" }}
