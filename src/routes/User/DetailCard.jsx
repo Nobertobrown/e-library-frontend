@@ -65,6 +65,26 @@ function DetailCard() {
   );
   const book = data;
 
+  function downloadBook() {
+    axios.get(`http://localhost:8080/catalogue/books/${params.bookId}/download`,
+      {
+        responseType: 'arraybuffer',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/pdf'
+        }
+      })
+      .then((response) => {
+        const filename = response.headers['content-disposition'].split('filename=')[1];
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', filename + ".pdf"); //or any other extension 
+        link.click();
+      })
+      .catch((error) => console.log(error));
+  }
+
   return (
     <>
       <SearchBar />
@@ -83,7 +103,7 @@ function DetailCard() {
         <Box display="flex" flexDirection="column" gap={1.25}>
           <img
             className="img-detail"
-            src={"http://localhost:8080" + book.imgUrl}
+            src={"http://localhost:8080/" + book.coverUrl}
             alt={book.title}
           />
           <Button
@@ -174,6 +194,7 @@ function DetailCard() {
               </Button>
 
               <Button
+                onClick={downloadBook}
                 variant="outlined"
                 size="large"
                 sx={{

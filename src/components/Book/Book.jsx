@@ -8,7 +8,7 @@ function Book(props) {
       {/* sm={4} md={3} */}
       <Paper elevation={0} sx={{ backgroundColor: "transparent" }} square>
         <NavLink to={props.id} className="link">
-          <img src={props.imgUrl} alt={props.title} className="img" />
+          <img src={props.coverUrl} alt={props.title} className="img" />
           <Box>
             <Rating
               name="read-only"

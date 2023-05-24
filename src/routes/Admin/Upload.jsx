@@ -23,7 +23,7 @@ import localforage from "localforage";
 
 const postBookData = async (data) => {
   const loginData = await localforage.getItem("loginData");
-  const result = await axios.putForm("http://localhost:8080/book", data, {
+  const result = await axios.putForm("http://localhost:8080/admin/book", data, {
     headers: { Authorization: "Bearer " + loginData.token },
   });
   if (result.status === 422) {

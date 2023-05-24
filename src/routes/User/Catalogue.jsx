@@ -50,7 +50,7 @@ export default function Catalogue() {
           <Book
             key={index}
             id={book._id}
-            imgUrl={"http://localhost:8080" + book.imgUrl}
+            coverUrl={"http://localhost:8080/" + book.coverUrl}
             title={book.title}
             rating={book.rating["value"]}
             author={book.author}
