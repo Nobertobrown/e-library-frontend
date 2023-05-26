@@ -17,7 +17,7 @@ import {
 import ImageOutlinedIcon from "@mui/icons-material/ImageOutlined";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { tags, languages, fields } from "../../util/data";
-import { Form } from "react-router-dom";
+import { Form, useNavigate } from "react-router-dom";
 import axios from "axios";
 import localforage from "localforage";
 
@@ -53,8 +53,9 @@ export default function UploadPage() {
   const field = useRef();
   const tag = useRef();
   const language = useRef();
+  const navigate = useNavigate();
 
-  async function handleSubmit(event) {
+  function handleSubmit(event) {
     event.preventDefault();
     let data = {
       ...details,
@@ -62,6 +63,7 @@ export default function UploadPage() {
       book: event.target.book.files[0]
     }
     postBookData(data);
+    navigate("/catalogue/books")
   }
 
   function inputChangeHandler(event) {

@@ -134,7 +134,7 @@ function DetailCard() {
             Leave Review
           </Button>
         </Box>
-        <Box>
+        <Box display={"flex"} flexDirection={"column"} flexGrow={1}>
           <Typography
             color="primary.light"
             variant="h6"
@@ -183,7 +183,7 @@ function DetailCard() {
             <Link sx={{ color: "secondary.main" }}>See all formats</Link>
             <Box display="flex" my={2.625} gap={2.875}>
               <Button
-                onClick={() => { navigate("/1/read") }}
+                onClick={() => { navigate(`/${book._id}/read`) }}
                 variant="contained"
                 size="large"
                 sx={{ borderRadius: "2px", backgroundColor: "secondary.main" }}
