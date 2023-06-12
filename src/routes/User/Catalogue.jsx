@@ -7,6 +7,7 @@ import axios from "axios";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import Index from "..";
 import localforage from "localforage";
+import { useOutletContext } from "react-router-dom";
 
 const booksQuery = (url) => ({
   queryKey: "getBooks",
@@ -31,7 +32,14 @@ export const loader = (queryClient) => async () => {
 
 export default function Catalogue() {
   const { data } = useQuery(query);
-  const books = data.data["books"];
+  const selections = useOutletContext();
+  const selected = selections.filter(({ selected }) => (selected === true))[0]
+  const books = data.data["books"].filter((book) => {
+    if (selected.tag !== "all") {
+      return book.fields.includes(selected.tag)
+    }
+    return book;
+  })
 
   if (books.length === 0) {
     return <Index />;
@@ -42,7 +50,7 @@ export default function Catalogue() {
       <SearchBar />
       <Box marginY="38px">
         <Typography variant="h5" component="h2" color="primary.light">
-          Computer Studies
+          {selected.name}
         </Typography>
       </Box>
       <Grid container spacing={7.25}>

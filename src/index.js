@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import SignUpPage from "./routes/Auth/SignUp";
-import MiniDrawer from "./components/Drawer/MiniDrawer";
+import MiniDrawer, { loader as newsLetterLoader } from "./components/Drawer/MiniDrawer";
 import ErrorPage from "./components/ErrorHandler/error-page";
 import Catalogue, { loader as booksLoader } from "./routes/User/Catalogue";
 import DetailCard, { loader as detailsLoader } from "./routes/User/DetailCard";
@@ -58,6 +58,7 @@ const router = createBrowserRouter([
           {
             path: "catalogue/books",
             element: <MiniDrawer />,
+            loader: newsLetterLoader,
             children: [
               {
                 index: true,

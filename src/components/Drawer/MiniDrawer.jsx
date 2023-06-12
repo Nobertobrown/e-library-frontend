@@ -244,6 +244,9 @@
 //   );
 // }
 
+//disabling hover
+// "&:hover": {backgroundColor: "#1976d2"}
+
 import * as React from "react";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -259,6 +262,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
 import Newsletter from "../Newsletter/Newsletter";
+import AdminNewsletter from "../Newsletter/AdminNewsletter";
 import Footer from "../Footer/AppFooter";
 
 import CollectionsBookmarkOutlinedIcon from "@mui/icons-material/CollectionsBookmarkOutlined";
@@ -271,13 +275,63 @@ import ScienceOutlinedIcon from "@mui/icons-material/ScienceOutlined";
 import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
 import BookOutlinedIcon from "@mui/icons-material/BookOutlined";
 import SourceOutlinedIcon from "@mui/icons-material/SourceOutlined";
+import localforage from "localforage";
 
-import { Outlet } from "react-router-dom";
+import { Outlet, useLoaderData, useNavigate } from "react-router-dom";
 
 const drawerWidth = 355;
 
+export const loader = async () => {
+  const loginData = await localforage.getItem("loginData");
+  const role = loginData.userRole;
+  return role;
+};
+
 function MiniDrawer() {
+  const userRole = useLoaderData();
+  const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [isAdmin, setIsAdmin] = React.useState(false);
+  const [selections, setSelections] = React.useState([
+    {
+      selected: true, name: "All Collections", tag: "all",
+      icon: <CollectionsBookmarkOutlinedIcon />
+    },
+    {
+      selected: false, name: "Computer Studies", tag: "coe",
+      icon: <ComputerOutlinedIcon />
+    },
+    {
+      selected: false, name: "Civil Engineering", tag: "ce",
+      icon: <ConstructionOutlinedIcon />
+    },
+    {
+      selected: false, name: "Electrical Engineering", tag: "ee",
+      icon: <ElectricalServicesOutlinedIcon />
+    },
+    {
+      selected: false, name: "Electronics & Telecommunication", tag: "ete",
+      icon: <WifiCalling3OutlinedIcon />
+    },
+    {
+      selected: false, name: "Mechanical Engineering", tag: "me",
+      icon: <EngineeringOutlinedIcon />
+    },
+    {
+      selected: false, name: "Science & Laboratory Technology", tag: "lab",
+      icon: <ScienceOutlinedIcon />
+    },
+    {
+      selected: false, name: "General Studies", tag: "gs",
+      icon: <PublicOutlinedIcon />
+    },
+    { selected: false, name: "Research & Publications", tag: "research", icon: <BookOutlinedIcon /> },
+    { selected: false, name: "External Resources", tag: "external", icon: <SourceOutlinedIcon /> },
+  ]);
+
+  React.useEffect(() => {
+    userRole === "admin" && setIsAdmin(true);
+  }, [userRole]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -298,36 +352,27 @@ function MiniDrawer() {
         Shelves
       </Typography>
       <List>
-        {[
-          {
-            name: "All Collections",
-            icon: <CollectionsBookmarkOutlinedIcon />,
-          },
-          { name: "Computer Studies", icon: <ComputerOutlinedIcon /> },
-          { name: "Civil Engineering", icon: <ConstructionOutlinedIcon /> },
-          {
-            name: "Electrical Engineering",
-            icon: <ElectricalServicesOutlinedIcon />,
-          },
-          {
-            name: "Electronics & Telecommunication",
-            icon: <WifiCalling3OutlinedIcon />,
-          },
-          {
-            name: "Mechanical Engineering",
-            icon: <EngineeringOutlinedIcon />,
-          },
-          {
-            name: "Science & Laboratory Technology",
-            icon: <ScienceOutlinedIcon />,
-          },
-          { name: "General Studies", icon: <PublicOutlinedIcon /> },
-          { name: "Research & Publications", icon: <BookOutlinedIcon /> },
-          { name: "External Resources", icon: <SourceOutlinedIcon /> },
-        ].map((text, index) => (
-          <ListItem key={text.name} disablePadding sx={{ display: "block" }}>
+        {selections.map(({ selected, name, icon }, index) => (
+          <ListItem
+            onClick={(e) => {
+              navigate("/catalogue/books")
+              const id = e.currentTarget.id;
+              const newArray = selections.map((selection) => {
+                if (id === selection.name) {
+                  return { ...selection, selected: true }
+                }
+                return { ...selection, selected: false };
+              })
+              setSelections(newArray)
+            }}
+            id={name}
+            key={index}
+            disablePadding
+            sx={{ display: "block" }}
+          >
             <ListItemButton
               sx={{
+                backgroundColor: selected && "primary.light",
                 minHeight: 48,
                 justifyContent: "initial",
                 px: 2.5,
@@ -338,14 +383,14 @@ function MiniDrawer() {
                   minWidth: 0,
                   mr: 3,
                   justifyContent: "center",
-                  color: "primary.light",
+                  color: selected ? "background.light" : "primary.light",
                 }}
               >
-                {text.icon}
+                {icon}
               </ListItemIcon>
               <ListItemText
-                primary={text.name}
-                sx={{ opacity: 1, color: "primary.light" }}
+                primary={name}
+                sx={{ opacity: 1, color: selected ? "background.light" : "primary.light" }}
               />
             </ListItemButton>
           </ListItem>
@@ -428,10 +473,10 @@ function MiniDrawer() {
             width: { sm: `calc(100% - ${drawerWidth}px)` },
           }}
         >
-          <Outlet />
+          <Outlet context={selections} />
         </Box>
       </Box>
-      <Newsletter />
+      {isAdmin ? <AdminNewsletter /> : <Newsletter />}
       <Footer />
     </>
   );

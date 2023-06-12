@@ -13,4 +13,4 @@ export const languages = [
   "Portuguese",
 ];
 
-export const fields = ["coe", "ete", "ce", "me", "ee", "cst", "fst"];
+export const fields = ["coe", "ete", "ce", "me", "ee", "cst", "lab", "gs", "research"];
