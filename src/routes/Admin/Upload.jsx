@@ -421,4 +421,4 @@ export default function UploadPage() {
 }
 
 // TODO
-// Add file upload logic
+// Make the publication date to be year of publication

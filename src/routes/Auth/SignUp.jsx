@@ -14,17 +14,16 @@ import axios from "axios";
 export async function action({ request }) {
   const formData = await request.formData();
   const body = Object.fromEntries(formData);
-  const result = await axios.put("http://localhost:8080/signup", body);
-  if (result.status === 422) {
-    throw new Error(
-      "Validation failed. Make sure the email address isn't used yet!"
-    );
-  }
+  const result = await axios.put("http://localhost:8080/signup", body, {
+    validateStatus: function (status) {
+      return status < 500; // Resolve only if the status code is less than 500
+    },
+  });
+
   if (result.status !== 200 && result.status !== 201) {
-    console.log("Error!");
-    throw new Error("Creating a user failed!");
+    throw result;
   }
-  console.log(result.data);
+  
   return redirect("/");
 }
 
@@ -195,3 +194,5 @@ export default function SignUpPage() {
     </Box>
   );
 }
+
+//TODO: Solve the error that occurs when typing the second input fast

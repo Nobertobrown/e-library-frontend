@@ -14,13 +14,14 @@ import axios from "axios";
 import localforage from "localforage";
 
 const postLoginData = async (data) => {
-  const result = await axios.post("http://localhost:8080/login", data);
-  if (result.status === 422) {
-    throw new Error("Validation failed.");
-  }
+  const result = await axios.post("http://localhost:8080/login", data, {
+    validateStatus: function (status) {
+      return status < 500; // Resolve only if the status code is less than 500
+    },
+  });
+
   if (result.status !== 200 && result.status !== 201) {
-    console.log("Error!");
-    throw new Error("Could not authenticate you!");
+    throw result;
   }
   return result.data;
 };
@@ -176,3 +177,5 @@ export default function LoginPage() {
     </Box>
   );
 }
+
+//TODO: Solve the error that occurs when typing the second input fast
