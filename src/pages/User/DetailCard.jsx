@@ -20,34 +20,13 @@ import ApartmentOutlinedIcon from "@mui/icons-material/ApartmentOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import { styled } from "@mui/material/styles";
 import { useQuery } from "react-query";
-import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import ReviewsCard from "../../components/ReviewsCard/ReviewsCard";
-import localforage from "localforage";
-
-const detailsQuery = (url) => ({
-  queryKey: ["getDetails"],
-  queryFn: async () => {
-    const loginData = await localforage.getItem("loginData");
-    const data = await axios.get(url, {
-      headers: { Authorization: "Bearer " + loginData.token },
-    });
-    const details = data.data["book"];
-    return details;
-  },
-});
-
-export const loader =
-  (queryClient) =>
-    async ({ params }) => {
-      let url = `http://localhost:8080/catalogue/books/${params.bookId}`;
-      const query = detailsQuery(url);
-      return (
-        queryClient.getQueryData(query.queryKey) ??
-        (await queryClient.fetchQuery(query))
-      );
-    };
+import {
+  detailsQuery,
+  downloadBook,
+} from "../../services/external-api.service";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.secondary.main,
@@ -60,30 +39,9 @@ const Item = styled(Paper)(({ theme }) => ({
 function DetailCard() {
   const params = useParams();
   const navigate = useNavigate();
-  const { data } = useQuery(
-    detailsQuery(`http://localhost:8080/catalogue/books/${params.bookId}`)
-  );
-  const book = data;
-
-  function downloadBook() {
-    axios.get(`http://localhost:8080/catalogue/books/${params.bookId}/download`,
-      {
-        responseType: 'arraybuffer',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/pdf'
-        }
-      })
-      .then((response) => {
-        const filename = response.headers['content-disposition'].split('filename=')[1];
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', filename + ".pdf"); //or any other extension 
-        link.click();
-      })
-      .catch((error) => console.log(error));
-  }
+  const query = detailsQuery(params.bookId);
+  const { data } = useQuery(query);
+  const book = data
 
   return (
     <>
@@ -183,7 +141,9 @@ function DetailCard() {
             <Link sx={{ color: "secondary.main" }}>See all formats</Link>
             <Box display="flex" my={2.625} gap={2.875}>
               <Button
-                onClick={() => { navigate(`/${book._id}/read`) }}
+                onClick={() => {
+                  navigate(`/${book._id}/read`);
+                }}
                 variant="contained"
                 size="large"
                 sx={{ borderRadius: "2px", backgroundColor: "secondary.main" }}
@@ -194,7 +154,9 @@ function DetailCard() {
               </Button>
 
               <Button
-                onClick={downloadBook}
+                onClick={()=>{
+                  downloadBook(params.bookId)
+                }}
                 variant="outlined"
                 size="large"
                 sx={{

@@ -3,43 +3,21 @@ import Typography from "@mui/material/Typography";
 import { Grid, Box, Button } from "@mui/material";
 import Book from "../../components/Book/Book";
 import { useQuery } from "react-query";
-import axios from "axios";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import Index from "..";
-import localforage from "localforage";
 import { useOutletContext } from "react-router-dom";
-
-const booksQuery = (url) => ({
-  queryKey: "getBooks",
-  queryFn: async () => {
-    const loginData = await localforage.getItem("loginData");
-    const data = await axios.get(url, {
-      headers: { Authorization: "Bearer " + loginData.token },
-    });
-    return data;
-  },
-});
-let url = "http://localhost:8080/catalogue/books";
-
-const query = booksQuery(url);
-
-export const loader = (queryClient) => async () => {
-  return (
-    queryClient.getQueryData(query.queryKey) ??
-    (await queryClient.fetchQuery(query))
-  );
-};
+import { booksQuery } from "../../services/external-api.service";
 
 export default function Catalogue() {
-  const { data } = useQuery(query);
+  const { data } = useQuery(booksQuery());
   const selections = useOutletContext();
-  const selected = selections.filter(({ selected }) => (selected === true))[0]
+  const selected = selections.filter(({ selected }) => selected === true)[0];
   const books = data.data["books"].filter((book) => {
     if (selected.tag !== "all") {
-      return book.fields.includes(selected.tag)
+      return book.fields.includes(selected.tag);
     }
     return book;
-  })
+  });
 
   if (books.length === 0) {
     return <Index />;

@@ -16,25 +16,9 @@ import {
 } from "@mui/material";
 import ImageOutlinedIcon from "@mui/icons-material/ImageOutlined";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { tags, languages, fields } from "../../util/data";
+import { tags, languages, fields } from "../../data";
 import { Form, useNavigate } from "react-router-dom";
-import axios from "axios";
-import localforage from "localforage";
-
-const postBookData = async (data) => {
-  const loginData = await localforage.getItem("loginData");
-  const result = await axios.putForm("http://localhost:8080/admin/book", data, {
-    headers: { Authorization: "Bearer " + loginData.token },
-  });
-  if (result.status === 422) {
-    throw new Error("Uploading failed!");
-  }
-  if (result.status !== 200 && result.status !== 201) {
-    console.log("Error!");
-    throw new Error("Could not upload book!");
-  }
-  return result.data;
-};
+import { postBookData } from "../../services/external-api.service";
 
 export default function UploadPage() {
   const [details, setDetails] = useState({

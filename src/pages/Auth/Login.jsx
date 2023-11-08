@@ -3,38 +3,16 @@ import {
   Button,
   FormControl,
   InputLabel,
+  Link,
   OutlinedInput,
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-import { NavLink, Form, redirect } from "react-router-dom";
-import { required, length, email } from "../../util/validator";
-import axios from "axios";
+import { NavLink, Form } from "react-router-dom";
+import { required, length, email } from "../../utilities/validator";
 
-export async function action({ request }) {
-  const formData = await request.formData();
-  const body = Object.fromEntries(formData);
-  const result = await axios.put("http://localhost:8080/signup", body, {
-    validateStatus: function (status) {
-      return status < 500; // Resolve only if the status code is less than 500
-    },
-  });
-
-  if (result.status !== 200 && result.status !== 201) {
-    throw result;
-  }
-  
-  return redirect("/");
-}
-
-export default function SignUpPage() {
+export default function LoginPage() {
   const [userData, setUserData] = useState({
-    username: {
-      value: "",
-      valid: false,
-      touched: false,
-      validators: [required],
-    },
     email: {
       value: "",
       valid: false,
@@ -76,15 +54,7 @@ export default function SignUpPage() {
   }
 
   return (
-    <Box
-      display="flex"
-      sx={{
-        "& .MuiTypography-root": {
-          fontFamily: "'Raleway', 'Poppins', 'Arial', sans-serif",
-        },
-      }}
-      gap={19.75}
-    >
+    <Box display="flex" gap={19.75}>
       <Box>
         <img
           style={{ width: "654px", height: "100%", opacity: "12%" }}
@@ -103,16 +73,19 @@ export default function SignUpPage() {
           pt: 8,
           pb: 6.875,
           my: 10.6875,
+          "& .MuiTypography-root": {
+            fontFamily: "'Raleway', 'Poppins', 'Arial', sans-serif",
+          },
         }}
       >
         <Box display="flex" justifyContent="flex-end">
           <Typography>
-            Already have an account?{" "}
+            New user?{" "}
             <NavLink
-              to="/"
+              to="/signup"
               style={{ textDecoration: "none", color: "#163269" }}
             >
-              Sign In
+              Create an account
             </NavLink>
           </Typography>
         </Box>
@@ -122,25 +95,12 @@ export default function SignUpPage() {
           color="primary.light"
           fontWeight={700}
         >
-          Create Account
+          Sign In
         </Typography>
         <Form
           style={{ display: "flex", flexFlow: "column", gap: "30px" }}
-          method="put"
+          method="post"
         >
-          <FormControl variant="outlined">
-            <InputLabel htmlFor="username">Username</InputLabel>
-            <OutlinedInput
-              error={userData.username.touched && !userData.username.valid}
-              id="username"
-              name="username"
-              type="text"
-              label="Username"
-              value={userData.username.value}
-              onChange={inputChangeHandler}
-            />
-          </FormControl>
-
           <FormControl variant="outlined">
             <InputLabel htmlFor="email">Email Address</InputLabel>
             <OutlinedInput
@@ -154,28 +114,28 @@ export default function SignUpPage() {
             />
           </FormControl>
 
-          <FormControl variant="outlined">
-            <InputLabel htmlFor="password">Password</InputLabel>
-            <OutlinedInput
-              error={userData.password.touched && !userData.password.valid}
-              id="password"
-              name="password"
-              type="password"
-              label="Password"
-              value={userData.password.value}
-              onChange={inputChangeHandler}
-            />
-          </FormControl>
-
-          <FormControl variant="outlined">
-            <InputLabel htmlFor="confirmPassword">Confirm Password</InputLabel>
-            <OutlinedInput
-              id="confirmPassword"
-              name="confirmPassword"
-              type="password"
-              label="Confirm Password"
-            />
-          </FormControl>
+          <Box display="flex" flexDirection="column">
+            <Link
+              color="tertiary.main"
+              variant="body1"
+              marginLeft="auto"
+              alignSelf="flex-end"
+            >
+              Forgot your password?
+            </Link>
+            <FormControl variant="outlined">
+              <InputLabel htmlFor="password">Password</InputLabel>
+              <OutlinedInput
+                error={userData.password.touched && !userData.password.valid}
+                id="password"
+                name="password"
+                type="password"
+                label="Password"
+                value={userData.password.value}
+                onChange={inputChangeHandler}
+              />
+            </FormControl>
+          </Box>
 
           <Button
             variant="contained"
@@ -187,7 +147,7 @@ export default function SignUpPage() {
             }}
             disableElevation
           >
-            Create Account
+            Sign In
           </Button>
         </Form>
       </Box>
