@@ -62,16 +62,18 @@ export default function SignUpPage() {
     <Box
       display="flex"
       sx={{
+        justifyContent: { xs: "center", lg: "left" },
         "& .MuiTypography-root": {
           fontFamily: "'Raleway', 'Poppins', 'Arial', sans-serif",
         },
+        margin: { xs: "0 16px", sm: "0 80px", lg: "0 24px 0 0" },
+        gap: { lg: 10, xl: 19.75 },
       }}
-      gap={19.75}
     >
-      <Box>
+      <Box sx={{ display: { xs: "none", lg: "block" } }}>
         <img
           style={{ width: "654px", height: "100%", opacity: "12%" }}
-          src="http://localhost:8080/images/bookshelves-bright-colors.jpg"
+          src="images/bookshelves-bright-colors.jpg"
           alt="Library-Books"
         />
       </Box>
@@ -82,7 +84,7 @@ export default function SignUpPage() {
         width="573px"
         sx={{
           backgroundColor: "background.main2",
-          px: 6.25,
+          px: {xs: 3,sm:6.25},
           pt: 8,
           pb: 6.875,
           my: 10.6875,

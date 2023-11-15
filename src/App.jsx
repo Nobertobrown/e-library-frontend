@@ -1,6 +1,6 @@
 import React from "react";
-import "./App.css";
-import ResponsiveTopAppBar from "./components/AppBar/TopAppBar";
+import "./styles/App.css";
+// import ResponsiveTopAppBar from "./components/AppBar/TopAppBar";
 import ResponsiveMiddleAppBar from "./components/AppBar/MiddleAppBar";
 import { Outlet } from "react-router-dom";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -13,7 +13,7 @@ function App() {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <ResponsiveTopAppBar />
+      {/* <ResponsiveTopAppBar /> */}
       <ResponsiveMiddleAppBar />
       <Outlet />
     </LocalizationProvider>

@@ -54,22 +54,30 @@ export default function LoginPage() {
   }
 
   return (
-    <Box display="flex" gap={19.75}>
-      <Box>
+    <Box
+      display="flex"
+      sx={{
+        justifyContent: { xs: "center", lg: "left" },
+        margin: { xs: "0 16px", sm: "0 80px", lg: "0 24px 0 0" },
+        gap: { lg: 10, xl: 19.75 },
+      }}
+    >
+      <Box sx={{ display: { xs: "none", lg: "block" } }}>
         <img
           style={{ width: "654px", height: "100%", opacity: "12%" }}
-          src="http://localhost:8080/images/bookshelves-bright-colors.jpg"
+          src="images/bookshelves-bright-colors.jpg"
           alt="Library-Books"
         />
       </Box>
       <Box
-        display="flex"
-        flexDirection="column"
-        gap={3.75}
-        width="573px"
         sx={{
+          display: "flex",
+          flexDirection: "column",
+          height: "500px",
+          width: "500px",
           backgroundColor: "background.main2",
-          px: 6.25,
+          px: { xs: 5, sm: 6.25 },
+          gap: 3.75,
           pt: 8,
           pb: 6.875,
           my: 10.6875,

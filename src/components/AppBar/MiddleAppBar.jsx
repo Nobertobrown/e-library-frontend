@@ -144,7 +144,7 @@ function ResponsiveMiddleAppBar() {
 
       <Box
         sx={{
-          backgroundImage: "url(http://localhost:8080/images/page-title.jpg)",
+          backgroundImage: "url(/images/page-title.jpg)",
           color: "secondary.main",
           fontWeight: "400",
           height: "108px",

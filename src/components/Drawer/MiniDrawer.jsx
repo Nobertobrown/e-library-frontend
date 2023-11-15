@@ -90,7 +90,7 @@ function MiniDrawer() {
         sx={{
           color: "primary.light",
           marginY: "0.875rem",
-          marginLeft: "1.25rem"
+          marginLeft: "1.25rem",
         }}
       >
         Shelves
@@ -99,15 +99,15 @@ function MiniDrawer() {
         {selections.map(({ selected, name, icon }, index) => (
           <ListItem
             onClick={(e) => {
-              navigate("/catalogue/books")
+              navigate("/catalogue/books");
               const id = e.currentTarget.id;
               const newArray = selections.map((selection) => {
                 if (id === selection.name) {
-                  return { ...selection, selected: true }
+                  return { ...selection, selected: true };
                 }
                 return { ...selection, selected: false };
-              })
-              setSelections(newArray)
+              });
+              setSelections(newArray);
             }}
             id={name}
             key={index}
@@ -120,6 +120,11 @@ function MiniDrawer() {
                 minHeight: 48,
                 justifyContent: "initial",
                 px: 2.5,
+                "&.MuiButtonBase-root": {
+                  "&:hover, &.Mui-focusVisible": {
+                    backgroundColor: selected && "primary.light",
+                  },
+                },
               }}
             >
               <ListItemIcon
@@ -134,7 +139,10 @@ function MiniDrawer() {
               </ListItemIcon>
               <ListItemText
                 primary={name}
-                sx={{ opacity: 1, color: selected ? "background.light" : "primary.light" }}
+                sx={{
+                  opacity: 1,
+                  color: selected ? "background.light" : "primary.light",
+                }}
               />
             </ListItemButton>
           </ListItem>
