@@ -5,6 +5,10 @@
   font-family: "Poppins", "Raleway", "Roboto", Arial, sans-serif;
 }
 
+body{
+  background-color: #f8fafc;
+}
+
 .centered {
   display: flex;
   flex-direction: column;

@@ -5,7 +5,7 @@ import theme from "./utilities/theme";
 import { ThemeProvider } from "@mui/material";
 import { RouterProvider } from "react-router-dom";
 import { QueryClientProvider } from "react-query";
-// import { ReactQueryDevtools } from "react-query/devtools";
+import { ReactQueryDevtools } from "react-query/devtools";
 import {router} from "./utilities/browser-router"
 import { queryClient } from "./utilities/react-query-client";
 
@@ -17,7 +17,7 @@ root.render(
       <ThemeProvider theme={theme}>
         <RouterProvider router={router} />
       </ThemeProvider>
-      {/* <ReactQueryDevtools /> */}
+      <ReactQueryDevtools />
     </QueryClientProvider>
   </React.StrictMode>
 );

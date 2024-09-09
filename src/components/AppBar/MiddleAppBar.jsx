@@ -142,7 +142,7 @@ function ResponsiveMiddleAppBar() {
         </Container>
       </AppBar>
 
-      <Box
+      {/* <Box
         sx={{
           backgroundImage: "url(/images/page-title.jpg)",
           color: "secondary.main",
@@ -155,7 +155,7 @@ function ResponsiveMiddleAppBar() {
         <Typography variant="h4" component="h4" marginLeft={3.75}>
           E Resources
         </Typography>
-      </Box>
+      </Box> */}
     </>
   );
 }
