@@ -64,11 +64,11 @@ export default function LoginPage() {
     >
       <Box
         display="flex"
-        borderRadius={4}
         overflow={"hidden"}
         sx={{
           boxShadow:
             "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+          borderRadius: { xs: 0, sm: 4 },
         }}
       >
         <Box
@@ -137,11 +137,7 @@ export default function LoginPage() {
             </FormControl>
 
             <Box display="flex" flexDirection="column">
-              <Link
-                color="tertiary.main"
-                variant="body1"
-                alignSelf="flex-end"
-              >
+              <Link color="tertiary.main" variant="body1" alignSelf="flex-end">
                 Forgot your password?
               </Link>
               <FormControl variant="outlined">

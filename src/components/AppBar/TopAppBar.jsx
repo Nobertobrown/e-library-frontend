@@ -42,13 +42,24 @@ function ResponsiveTopAppBar() {
   };
 
   return (
-    <AppBar position="static" elevation={0} sx={{ fontFamily: "Poppins" }}>
+    <AppBar
+      position="static"
+      elevation={0}
+      sx={{ fontFamily: "Poppins", height: "fit-content" }}
+    >
       <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <Box sx={{ display: { xs: "none", md: "none", lg: "flex" }, mr: 1 }}>
+        <Toolbar disableGutters style={{ minHeight: "100%" }}>
+          <Box
+            sx={{
+              display: { xs: "none", lg: "flex" },
+              mr: 1,
+              alignItems: "center",
+            }}
+          >
             <img
               src="http://localhost:8080/images/dit-title0.png"
               alt="DIT Logo"
+              height={36}
             />
           </Box>
 
@@ -57,7 +68,6 @@ function ResponsiveTopAppBar() {
               flexGrow: 1,
               display: {
                 xs: "none",
-                md: "none",
                 lg: "flex",
               },
               justifyContent: "flex-end",
@@ -73,7 +83,7 @@ function ResponsiveTopAppBar() {
                   mr: 2,
                   fontWeight: "400",
                 }}
-                variant="subtitle2"
+                variant="caption"
               >
                 {page}
               </Link>
@@ -85,7 +95,7 @@ function ResponsiveTopAppBar() {
                 color: "secondary.main",
                 fontWeight: "700",
               }}
-              variant="subtitle1"
+              variant="subtitle2"
             >
               Apply Now
             </Link>
@@ -98,7 +108,7 @@ function ResponsiveTopAppBar() {
               borderRadius: "0",
               backgroundColor: "secondary.light",
               textTransform: "none",
-              height: "64px",
+              height: "",
               width: "125px",
               fontSize: "1.125rem",
               fontWeight: "600",
@@ -111,20 +121,22 @@ function ResponsiveTopAppBar() {
           <Box
             sx={{
               flexGrow: 1,
-              display: { xs: "flex", md: "flex", lg: "none" },
+              display: { xs: "flex", lg: "none" },
               justifyContent: "center",
+              alignItems: "center"
             }}
           >
             <img
               src="http://localhost:8080/images/dit-title0.png"
               alt="DIT Logo"
+              height={36}
             />
           </Box>
 
           <Box
             sx={{
               flexGrow: 0,
-              display: { xs: "flex", md: "flex", lg: "none" },
+              display: { xs: "flex", lg: "none" },
             }}
           >
             <IconButton
@@ -152,7 +164,7 @@ function ResponsiveTopAppBar() {
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: "block", md: "block", lg: "none" },
+                display: { xs: "block", lg: "none" },
               }}
             >
               {pages.map((page) => (

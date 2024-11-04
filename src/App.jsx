@@ -1,6 +1,6 @@
 import React from "react";
 import "./styles/App.css";
-// import ResponsiveTopAppBar from "./components/AppBar/TopAppBar";
+import ResponsiveTopAppBar from "./components/AppBar/TopAppBar";
 import ResponsiveMiddleAppBar from "./components/AppBar/MiddleAppBar";
 import { Outlet, useLocation } from "react-router-dom";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -15,10 +15,11 @@ function App() {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       {location.pathname !== "/" && location.pathname !== "/signup" && (
-        <ResponsiveMiddleAppBar />
+        <>
+          <ResponsiveTopAppBar />
+          <ResponsiveMiddleAppBar />
+        </>
       )}
-        {/* <ResponsiveMiddleAppBar /> */}
-      {/* <ResponsiveTopAppBar /> */}
       <Outlet />
     </LocalizationProvider>
   );
